@@ -1,7 +1,6 @@
 const assets = {
   images: {
     // images will go here
-
     doctors: require("./landing_page/doctors.png"),
     atm: require("./landing_page/atm-card.png"),
     videoCall: require("./landing_page/video_call.png"),
@@ -35,6 +34,9 @@ const assets = {
     dentist: require("./svgs/Dentist.svg"),
     ophthalmology: require("./svgs/Ophthalmology.svg"),
     award: require("./svgs/award-icon.svg"),
+    care: require("./svgs/care-icon.svg"),
+    equipment: require("./svgs/medical-equipment-icon.svg"),
+    call: require("./svgs/call-icon.svg"),
   },
 };
 
