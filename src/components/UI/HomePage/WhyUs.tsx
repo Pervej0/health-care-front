@@ -1,3 +1,4 @@
+"use client";
 import assets from "@/assets";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Image from "next/image";
@@ -67,7 +68,12 @@ const WhyUs = () => {
                   borderRadius: "10px",
                 }}
               >
-                <Image src={servicesData[0].imageSrc} width={50} alt="award" />
+                <Image
+                  src={servicesData[0].imageSrc}
+                  width={50}
+                  height={50}
+                  alt="award"
+                />
               </Box>
               <Box>
                 <Typography
@@ -101,7 +107,12 @@ const WhyUs = () => {
                   borderRadius: "10px",
                 }}
               >
-                <Image src={servicesData[1].imageSrc} width={50} alt="award" />
+                <Image
+                  src={servicesData[1].imageSrc}
+                  width={50}
+                  height={50}
+                  alt="award"
+                />
               </Box>
               <Box>
                 <Typography variant="h6" component="h6" fontWeight={600}>
@@ -129,7 +140,12 @@ const WhyUs = () => {
                   borderRadius: "10px",
                 }}
               >
-                <Image src={servicesData[2].imageSrc} width={50} alt="award" />
+                <Image
+                  src={servicesData[2].imageSrc}
+                  width={50}
+                  height={50}
+                  alt="award"
+                />
               </Box>
               <Box>
                 <Typography variant="h6" component="h6" fontWeight={600}>
@@ -158,7 +174,12 @@ const WhyUs = () => {
                   borderRadius: "10px",
                 }}
               >
-                <Image src={servicesData[3].imageSrc} width={50} alt="award" />
+                <Image
+                  src={servicesData[3].imageSrc}
+                  width={50}
+                  height={50}
+                  alt="award"
+                />
               </Box>
               <Box>
                 <Typography variant="h6" component="h6" fontWeight={600}>

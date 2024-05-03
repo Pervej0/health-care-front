@@ -1,3 +1,5 @@
+"use client";
+
 import assets from "@/assets";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Image from "next/image";
