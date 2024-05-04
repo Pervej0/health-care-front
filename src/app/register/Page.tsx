@@ -11,10 +11,16 @@ import React from "react";
 import assets from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import convertToFormData from "@/utils/ConvertToFormData";
 import { Toaster, toast } from "sonner";
 import registerPatient from "@/services/actions/registerUser";
+import GlobalForm from "@/components/Form/GlobalForm";
+import GlobalInput from "@/components/Form/GlobalInput";
+import { Global } from "@emotion/react";
+import loginUser from "@/services/actions/loginUser";
+import { useRouter } from "next/navigation";
+import { storeUserInfo } from "@/services/auth.services";
 
 export interface TRegisterInput {
   password: string;
@@ -27,17 +33,25 @@ export interface TRegisterInput {
 }
 
 const RegisterPage = () => {
-  const { register, handleSubmit, reset } = useForm<TRegisterInput>();
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<TRegisterInput> = async (
-    data: TRegisterInput
+  const handleRegister: SubmitHandler<FieldValues> = async (
+    data: FieldValues
   ) => {
     const formData = convertToFormData(data);
     const userInfo = await registerPatient(formData);
     if (userInfo.success) {
-      toast.success("User Created successfully!");
+      const userLogin: FieldValues = await loginUser({
+        email: data.patient.email,
+        password: data.password,
+      });
+      console.log(userLogin);
+      if (userLogin.success) {
+        toast.success("User logged in successfully!");
+        router.push("/");
+        storeUserInfo(userLogin.data.accessToken);
+      }
     }
-    reset();
   };
 
   return (
@@ -83,61 +97,58 @@ const RegisterPage = () => {
               </Typography>
             </Box>
           </Box>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
+          <GlobalForm onSubmit={handleRegister}>
+            <GlobalInput
+              name="patient.name"
+              required={true}
               fullWidth={true}
               size="small"
-              id="name"
               label="Name"
-              variant="outlined"
-              {...register("patient.name")}
             />
             <Grid container spacing={2} mt={1} mb={3}>
               <Grid item md={6} sm={12} xs={12}>
-                <TextField
+                <GlobalInput
+                  name="patient.email"
+                  type="email"
+                  required
                   fullWidth={true}
                   size="small"
-                  id="email"
                   label="Email"
-                  variant="outlined"
-                  {...register("patient.email")}
                 />
               </Grid>
               <Grid item md={6} sm={12} xs={12}>
-                <TextField
+                <GlobalInput
+                  name="password"
+                  required
                   fullWidth={true}
                   type="password"
                   size="small"
-                  id="password"
                   label="Password"
-                  variant="outlined"
-                  {...register("password")}
                 />
               </Grid>
               <Grid item md={6} sm={12} xs={12}>
-                <TextField
+                <GlobalInput
+                  name="patient.contactNumber"
+                  required
                   fullWidth={true}
                   size="small"
-                  id="contactNumber"
                   label="Contact number"
-                  variant="outlined"
-                  {...register("patient.contactNumber")}
                 />
               </Grid>
               <Grid item md={6} sm={12} xs={12}>
-                <TextField
+                <GlobalInput
+                  name="patient.address"
+                  required
+                  fullWidth={true}
                   size="small"
-                  id="address"
                   label="Address"
-                  variant="outlined"
-                  {...register("patient.address")}
                 />
               </Grid>
             </Grid>
             <Button type="submit" variant="contained">
               Submit
             </Button>
-          </form>
+          </GlobalForm>
           <Typography variant="body2" textAlign="center" mt={1}>
             Do you already have any account?{" "}
             <Link href="/login" style={{ color: "#0f33d3", fontWeight: 600 }}>

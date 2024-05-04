@@ -84,6 +84,7 @@ const LoginPage = () => {
                   <Grid item md={6}>
                     <GlobalInput
                       name="email"
+                      required
                       size="small"
                       label="Email"
                       type="email"
@@ -93,6 +94,7 @@ const LoginPage = () => {
                   <Grid item md={6}>
                     <GlobalInput
                       name="password"
+                      required
                       size="small"
                       label="Password"
                       type="password"

@@ -1,11 +1,6 @@
-import { TextField } from "@mui/material";
+import { SxProps, TextField } from "@mui/material";
 import React from "react";
-import {
-  Controller,
-  FieldValues,
-  useForm,
-  useFormContext,
-} from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface IInput {
   name: string;
@@ -13,6 +8,9 @@ interface IInput {
   label: string;
   type?: string;
   fullWidth?: boolean;
+  sx?: SxProps;
+  placeholder?: string;
+  required: boolean;
 }
 
 const GlobalInput = ({
@@ -21,6 +19,9 @@ const GlobalInput = ({
   label,
   type = "text",
   fullWidth,
+  placeholder,
+  required,
+  sx,
 }: IInput) => {
   const { control } = useFormContext();
 
@@ -35,6 +36,9 @@ const GlobalInput = ({
           label={label}
           type={type}
           fullWidth={fullWidth}
+          variant="outlined"
+          placeholder={label}
+          required={required}
         />
       )}
     />
