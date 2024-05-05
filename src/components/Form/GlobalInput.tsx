@@ -10,7 +10,7 @@ interface IInput {
   fullWidth?: boolean;
   sx?: SxProps;
   placeholder?: string;
-  required: boolean;
+  required?: boolean;
 }
 
 const GlobalInput = ({
@@ -29,7 +29,7 @@ const GlobalInput = ({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
           size={size}
@@ -39,6 +39,8 @@ const GlobalInput = ({
           variant="outlined"
           placeholder={label}
           required={required}
+          error={!!error?.message}
+          helperText={error?.message}
         />
       )}
     />

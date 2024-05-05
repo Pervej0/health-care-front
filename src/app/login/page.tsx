@@ -21,12 +21,20 @@ import { storeUserInfo } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
 import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalInput from "@/components/Form/GlobalInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+  email: z
+    .string({ required_error: "Please, Enter your email" })
+    .email("Please, Enter valid email"),
+  password: z.string({ required_error: "Please, Enter your password" }),
+});
 
 const LoginPage = () => {
   const router = useRouter();
 
   const handleLogin: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    console.log(data, "xxx");
     const userInfo: FieldValues = await loginUser(data);
     if (userInfo.success) {
       toast.success("Logged in successfully.");
@@ -79,12 +87,15 @@ const LoginPage = () => {
               </Box>
             </Stack>
             <Box>
-              <GlobalForm onSubmit={handleLogin}>
+              <GlobalForm
+                onSubmit={handleLogin}
+                resolver={zodResolver(loginSchema)}
+                defaultValues={{ email: "", password: "" }}
+              >
                 <Grid container spacing={2} my={1}>
                   <Grid item md={6}>
                     <GlobalInput
                       name="email"
-                      required
                       size="small"
                       label="Email"
                       type="email"
@@ -94,7 +105,6 @@ const LoginPage = () => {
                   <Grid item md={6}>
                     <GlobalInput
                       name="password"
-                      required
                       size="small"
                       label="Password"
                       type="password"

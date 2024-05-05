@@ -21,6 +21,9 @@ import { Global } from "@emotion/react";
 import loginUser from "@/services/actions/loginUser";
 import { useRouter } from "next/navigation";
 import { storeUserInfo } from "@/services/auth.services";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Password } from "@mui/icons-material";
 
 export interface TRegisterInput {
   password: string;
@@ -31,6 +34,20 @@ export interface TRegisterInput {
     address: string;
   };
 }
+
+const registerSchema = z.object({
+  password: z.string({ required_error: "Please, Enter your password" }),
+  patient: z.object({
+    name: z.string({ required_error: "Please, Enter your name" }),
+    email: z
+      .string({ required_error: "Please, Enter your email" })
+      .email("Please, Enter valid email"),
+    contactNumber: z.string({
+      required_error: "Please, Enter your number",
+    }),
+    address: z.string({ required_error: "Please, Enter your address" }),
+  }),
+});
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -45,7 +62,6 @@ const RegisterPage = () => {
         email: data.patient.email,
         password: data.password,
       });
-      console.log(userLogin);
       if (userLogin.success) {
         toast.success("User logged in successfully!");
         router.push("/");
@@ -97,10 +113,19 @@ const RegisterPage = () => {
               </Typography>
             </Box>
           </Box>
-          <GlobalForm onSubmit={handleRegister}>
+          <GlobalForm
+            onSubmit={handleRegister}
+            resolver={zodResolver(registerSchema)}
+            defaultValues={{
+              name: "",
+              email: "",
+              Password: "",
+              contactNumber: "",
+              address: "",
+            }}
+          >
             <GlobalInput
               name="patient.name"
-              required={true}
               fullWidth={true}
               size="small"
               label="Name"
@@ -110,7 +135,6 @@ const RegisterPage = () => {
                 <GlobalInput
                   name="patient.email"
                   type="email"
-                  required
                   fullWidth={true}
                   size="small"
                   label="Email"
@@ -119,7 +143,6 @@ const RegisterPage = () => {
               <Grid item md={6} sm={12} xs={12}>
                 <GlobalInput
                   name="password"
-                  required
                   fullWidth={true}
                   type="password"
                   size="small"
@@ -129,7 +152,6 @@ const RegisterPage = () => {
               <Grid item md={6} sm={12} xs={12}>
                 <GlobalInput
                   name="patient.contactNumber"
-                  required
                   fullWidth={true}
                   size="small"
                   label="Contact number"
@@ -138,7 +160,6 @@ const RegisterPage = () => {
               <Grid item md={6} sm={12} xs={12}>
                 <GlobalInput
                   name="patient.address"
-                  required
                   fullWidth={true}
                   size="small"
                   label="Address"
