@@ -31,11 +31,11 @@ const GlobalForm = ({
   }
 
   const methods = useForm(formConfig);
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const submit = (data: FieldValues) => {
-    console.log(data);
     onSubmit(data);
+    reset();
   };
 
   return (

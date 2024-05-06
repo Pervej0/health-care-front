@@ -36,18 +36,26 @@ export interface TRegisterInput {
 }
 
 const registerSchema = z.object({
-  password: z.string({ required_error: "Please, Enter your password" }),
+  password: z.string().min(6, "Must be at least 6 characters"),
   patient: z.object({
-    name: z.string({ required_error: "Please, Enter your name" }),
-    email: z
-      .string({ required_error: "Please, Enter your email" })
-      .email("Please, Enter valid email"),
-    contactNumber: z.string({
-      required_error: "Please, Enter your number",
-    }),
-    address: z.string({ required_error: "Please, Enter your address" }),
+    name: z.string().min(1, "Please enter your name!"),
+    email: z.string().email("Please enter a valid email address!"),
+    contactNumber: z
+      .string()
+      .regex(/^\d{11}$/, "Please provide a valid phone number!"),
+    address: z.string().min(1, "Please enter your address!"),
   }),
 });
+
+export const defaultValues = {
+  password: "",
+  patient: {
+    name: "",
+    email: "",
+    contactNumber: "",
+    address: "",
+  },
+};
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -116,13 +124,7 @@ const RegisterPage = () => {
           <GlobalForm
             onSubmit={handleRegister}
             resolver={zodResolver(registerSchema)}
-            defaultValues={{
-              name: "",
-              email: "",
-              Password: "",
-              contactNumber: "",
-              address: "",
-            }}
+            defaultValues={defaultValues}
           >
             <GlobalInput
               name="patient.name"
