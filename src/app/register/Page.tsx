@@ -72,7 +72,7 @@ const RegisterPage = () => {
       });
       if (userLogin.success) {
         toast.success("User logged in successfully!");
-        router.push("/");
+        router.push("/dashboard");
         storeUserInfo(userLogin.data.accessToken);
       }
     }

@@ -38,7 +38,7 @@ const LoginPage = () => {
     const userInfo: FieldValues = await loginUser(data);
     if (userInfo.success) {
       toast.success("Logged in successfully.");
-      router.push("/");
+      router.push("/dashboard");
       storeUserInfo(userInfo.data.accessToken);
     } else {
       console.log(userInfo, "xx");

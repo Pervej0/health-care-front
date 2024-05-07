@@ -14,7 +14,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Badge, Menu, MenuItem } from "@mui/material";
+import { Badge, Button, Menu, MenuItem } from "@mui/material";
+import { removeUser } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
 
 const drawerWidth = 240;
 const menuId = "primary-search-account-menu";
@@ -29,9 +31,9 @@ export default function ResponsiveDrawer({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const router = useRouter();
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -84,6 +86,14 @@ export default function ResponsiveDrawer({
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Button
+        onClick={() => {
+          removeUser;
+          router.push("/login");
+        }}
+      >
+        <MenuItem>Log out</MenuItem>
+      </Button>
     </Menu>
   );
 
@@ -160,7 +170,7 @@ export default function ResponsiveDrawer({
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Welcome to ph-healthcare
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
@@ -231,7 +241,7 @@ export default function ResponsiveDrawer({
             },
           }}
         >
-          {DashboardSidebar}
+          <DashboardSidebar />
         </Drawer>
         <Drawer
           variant="permanent"
@@ -244,7 +254,7 @@ export default function ResponsiveDrawer({
           }}
           open
         >
-          {DashboardSidebar}
+          <DashboardSidebar />
         </Drawer>
       </Box>
       <Box

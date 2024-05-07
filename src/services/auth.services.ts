@@ -5,7 +5,6 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/localStorage";
-
 export const storeUserInfo = (token: string) => {
   return setToLocalStorage(authKey, token);
 };
