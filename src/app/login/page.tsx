@@ -41,7 +41,6 @@ const LoginPage = () => {
       router.push("/dashboard");
       storeUserInfo(userInfo.data.accessToken);
     } else {
-      console.log(userInfo, "xx");
       toast.error((userInfo?.message as string) || "something went wrong");
     }
   };

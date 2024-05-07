@@ -15,7 +15,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Badge, Button, Menu, MenuItem } from "@mui/material";
-import { removeUser } from "@/services/auth.services";
+import { getUserInfo, removeUser } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
 
 const drawerWidth = 240;
@@ -149,6 +149,8 @@ export default function ResponsiveDrawer({
     </Menu>
   );
 
+  const userInfo = getUserInfo();
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -157,6 +159,10 @@ export default function ResponsiveDrawer({
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          background: "#F4F7FE",
+          boxShadow: 0,
+          borderBottom: "1px solid #ddd",
+          py: 1,
         }}
       >
         <Toolbar>
@@ -169,15 +175,31 @@ export default function ResponsiveDrawer({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Welcome to ph-healthcare
-          </Typography>
+          <Box>
+            <Typography
+              variant="body2"
+              noWrap
+              component="div"
+              sx={{ color: "rgba(11, 17, 52, 0.6)" }}
+            >
+              Hi,
+            </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ color: "primary.main" }}
+            >
+              Welcome to PH Health Care!
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              sx={{ backgroundColor: "gray" }}
             >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
@@ -187,6 +209,7 @@ export default function ResponsiveDrawer({
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              sx={{ backgroundColor: "gray" }}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
@@ -200,6 +223,7 @@ export default function ResponsiveDrawer({
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
+              sx={{ backgroundColor: "gray" }}
             >
               <AccountCircle />
             </IconButton>

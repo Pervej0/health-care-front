@@ -17,3 +17,19 @@ export interface ISidebarItems {
   icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
   child?: ISidebarItems[];
 }
+
+export interface IResponse {
+  data: any;
+  meta?: IMeta;
+}
+
+export interface IErrorResponse {
+  statusCode: number;
+  message: string;
+  errorMessages: IErrorMessage[];
+}
+
+interface IErrorMessage {
+  path: string | number;
+  message: string;
+}

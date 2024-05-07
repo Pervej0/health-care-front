@@ -6,9 +6,15 @@ import sidebarItems from "@/utils/sidebarItem";
 import { TUserRole } from "@/types";
 import MenuItems from "./MenuItems";
 import { getUserInfo } from "@/services/auth.services";
+import { useEffect, useState } from "react";
 
 const DashboardSidebar = () => {
-  const userInfo = getUserInfo() as any;
+  const [currentUser, setCurrentUser] = useState("");
+
+  useEffect(() => {
+    const { role } = getUserInfo() as any;
+    setCurrentUser(role);
+  }, []);
 
   return (
     <div>
@@ -19,7 +25,7 @@ const DashboardSidebar = () => {
         </Typography>
       </Stack>
       <List>
-        {sidebarItems(userInfo.role.toLowerCase() as TUserRole)?.map(
+        {sidebarItems(currentUser.toLowerCase() as TUserRole)?.map(
           (item, index) => (
             <MenuItems key={index} sidebarItem={item} />
           )
