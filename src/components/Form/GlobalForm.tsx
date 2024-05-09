@@ -1,3 +1,4 @@
+import { SxProps } from "@mui/material";
 import React, { ReactNode } from "react";
 import {
   FieldValues,
@@ -13,6 +14,7 @@ type TFormConfig = {
 type TFormData = {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
+  sx?: any;
 } & TFormConfig;
 
 const GlobalForm = ({
@@ -20,6 +22,7 @@ const GlobalForm = ({
   onSubmit,
   resolver,
   defaultValues,
+  sx,
 }: TFormData) => {
   const formConfig: TFormConfig = {};
 
@@ -40,7 +43,9 @@ const GlobalForm = ({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(submit)}>{children}</form>
+      <form style={sx} onSubmit={handleSubmit(submit)}>
+        {children}
+      </form>
     </FormProvider>
   );
 };

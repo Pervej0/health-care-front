@@ -1,5 +1,5 @@
 import { USER_ROLE } from "@/constant/userRole";
-import { SvgIconProps, SvgIconTypeMap } from "@mui/material";
+import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 export interface IMeta {

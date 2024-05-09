@@ -88,7 +88,7 @@ export default function ResponsiveDrawer({
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
       <Button
         onClick={() => {
-          removeUser;
+          removeUser();
           router.push("/login");
         }}
       >

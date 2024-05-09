@@ -25,7 +25,7 @@ const DashboardSidebar = () => {
         </Typography>
       </Stack>
       <List>
-        {sidebarItems(currentUser.toLowerCase() as TUserRole)?.map(
+        {sidebarItems(currentUser?.toLowerCase() as TUserRole)?.map(
           (item, index) => (
             <MenuItems key={index} sidebarItem={item} />
           )
