@@ -4,3 +4,10 @@ export enum tagTypes {
   doctor = "doctor",
   patient = "patient",
 }
+
+export const tagTypesList = [
+  tagTypes.specialty,
+  tagTypes.admin,
+  tagTypes.doctor,
+  tagTypes.patient,
+];

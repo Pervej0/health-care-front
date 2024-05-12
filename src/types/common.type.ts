@@ -33,3 +33,16 @@ interface IErrorMessage {
   path: string | number;
   message: string;
 }
+
+export interface IResponse {
+  success: boolean;
+  message: string;
+  data: any;
+}
+
+export type TGlobalModal = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  title?: string;
+  children: React.ReactNode;
+};

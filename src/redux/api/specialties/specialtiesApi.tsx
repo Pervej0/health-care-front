@@ -1,4 +1,5 @@
 import { baseApi } from "../baseApi";
+import { tagTypes } from "../tag-type";
 
 const specialtiesApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -11,6 +12,7 @@ const specialtiesApi = baseApi.injectEndpoints({
           data,
         };
       },
+      invalidatesTags: [tagTypes.specialty],
     }),
     getAllSpecialty: build.query({
       query: () => {
@@ -19,10 +21,23 @@ const specialtiesApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: [tagTypes.specialty],
+    }),
+    deleteSpecialty: build.mutation({
+      query: (id) => {
+        return {
+          url: `/specialists/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: [tagTypes.specialty],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateSpecialtyMutation, useGetAllSpecialtyQuery } =
-  specialtiesApi;
+export const {
+  useCreateSpecialtyMutation,
+  useGetAllSpecialtyQuery,
+  useDeleteSpecialtyMutation,
+} = specialtiesApi;
