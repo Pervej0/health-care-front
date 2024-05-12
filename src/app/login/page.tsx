@@ -14,7 +14,7 @@ import Image from "next/image";
 import React from "react";
 import assets from "@/assets";
 import Link from "next/link";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import loginUser from "@/services/actions/loginUser";
 import { Toaster, toast } from "sonner";
 import { storeUserInfo } from "@/services/auth.services";

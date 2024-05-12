@@ -1,20 +1,69 @@
 import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalInput from "@/components/Form/GlobalInput";
 import GlobalSelect from "@/components/Form/GlobalSelect";
+import GlobalUploadFile from "@/components/Form/GlobalUploadFile";
 import GlobalFullPageModal from "@/components/Shared/GlobalFullPageModal";
-import { Label } from "@mui/icons-material";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { useCreateDoctorMutation } from "@/redux/api/admin/adminApi";
+import convertToFormData from "@/utils/ConvertToFormData";
+import { Toaster, toast } from "sonner";
 
 type TModal = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+const DoctorSchema = z.object({
+  name: z.string({ required_error: "Please, Enter your name" }),
+  email: z
+    .string({ required_error: "Please, Enter your email" })
+    .email("Please, Enter valid email"),
+  password: z.string({ required_error: "Please, Enter your password" }),
+  contactNumber: z.string({
+    required_error: "Please, Enter your contactNumber",
+  }),
+  address: z.string({ required_error: "Please, Enter your address" }),
+  registrationNumber: z.string({
+    required_error: "Please, Enter your registration",
+  }),
+  experience: z.number(),
+  gender: z.enum(["Male", "Female"], {
+    required_error: "Please, Select your gender",
+  }),
+  appointmentFee: z.number({
+    required_error: "Please, Enter your Appointment Fee",
+  }),
+  qualification: z.string({
+    required_error: "Please, Enter your qualification",
+  }),
+  currentWorkingPlace: z.string({
+    required_error: "Please, Enter your password",
+  }),
+  designation: z.string({ required_error: "Please, Enter your password" }),
+});
+
 const CreateDoctorModal = ({ open, setOpen }: TModal) => {
-  const handleSubmit = (values: FieldValues) => {
-    console.log(values);
+  const [createDoctor] = useCreateDoctorMutation();
+  const handleSubmit = async (values: FieldValues) => {
+    values.doctor.experience = Number(values.doctor.experience);
+    values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
+    console.log(values, "xx");
+    const data = convertToFormData(values);
+
+    try {
+      const result = await createDoctor(data).unwrap();
+      console.log(result, "xx");
+      if (result.data.id) {
+        toast.success(result.message);
+        setOpen(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const genderOptions = [
@@ -22,8 +71,27 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
     { value: "Female", label: "Female" },
   ];
 
+  const defaultValues = {
+    doctor: {
+      email: "",
+      name: "",
+      contactNumber: "",
+      address: "",
+      registrationNumber: "",
+      gender: "",
+      experience: 0,
+      apointmentFee: 0,
+      qualification: "",
+      currentWorkingPlace: "",
+      designation: "",
+      profilePhoto: "",
+    },
+    password: "",
+  };
+
   return (
     <>
+      <Toaster position="top-center" />
       <GlobalFullPageModal open={open} setOpen={setOpen}>
         <Container>
           <Typography variant="h5" component="h5" mb={3} mt={2}>
@@ -31,42 +99,101 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
           </Typography>
           <GlobalForm onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item md={6}>
-                <GlobalInput name="name" label="Name" fullWidth={true} />
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput name="doctor.name" label="Name" fullWidth={true} />
               </Grid>
-              <Grid item md={6}>
-                <GlobalInput name="email" label="Email" fullWidth={true} />
-              </Grid>
-              <Grid item md={6}>
+              <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
-                  name="contactNumber"
+                  name="doctor.email"
+                  label="Email"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="password"
+                  label="Password"
+                  type="password"
+                  fullWidth={true}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="doctor.contactNumber"
                   label="Contact Number"
                   fullWidth={true}
                 />
               </Grid>
-              <Grid item md={6}>
-                <GlobalInput name="address" label="Address" fullWidth={true} />
-              </Grid>
-              <Grid item md={6}>
+              <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
-                  name="registrationNumber"
+                  name="doctor.address"
+                  label="Address"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="doctor.registrationNumber"
                   label="Registration Number"
                   fullWidth={true}
                 />
               </Grid>
-              <Grid item md={6}>
+              <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
-                  name="experience"
+                  name="doctor.experience"
                   label="experience"
                   type="number"
                   fullWidth={true}
                 />
               </Grid>
-              <Grid item md={6}>
+              <Grid item xs={12} sm={12} md={4}>
                 <GlobalSelect
                   options={genderOptions}
-                  name="gender"
+                  name="doctor.gender"
+                  size="small"
                   label="Gender"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="doctor.appointmentFee"
+                  size="small"
+                  type="number"
+                  label="Appointment Fee"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="doctor.qualification"
+                  size="small"
+                  label="Qualification"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="doctor.currentWorkingPlace"
+                  size="small"
+                  label="Current Working Place"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalInput
+                  name="doctor.designation"
+                  size="small"
+                  label="Designation"
+                  fullWidth={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <GlobalUploadFile
+                  name="file"
+                  size="small"
+                  label="Upload image"
                   fullWidth={true}
                 />
               </Grid>

@@ -25,7 +25,6 @@ const GlobalSelect = ({
   fullWidth,
   sx,
   placeholder,
-  required,
   options,
   size,
 }: ISelect) => {
@@ -45,7 +44,6 @@ const GlobalSelect = ({
           onChange={onChange}
           onBlur={onBlur}
           sx={sx}
-          required={required}
           error={!!error?.message}
           helperText={error?.message}
           placeholder={placeholder}

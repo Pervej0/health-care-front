@@ -37,21 +37,19 @@ export default function GlobalFullPageModal({
         onClose={() => setOpen(false)}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={() => setOpen(false)}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              {title}
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={() => setOpen(false)}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            {title}
+          </Typography>
+        </Toolbar>
         {children}
       </Dialog>
     </React.Fragment>

@@ -16,7 +16,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const GlobalUploadFile = ({ name, label }: any) => {
+const GlobalUploadFile = ({ name, label, buttonStyle }: any) => {
   const { control } = useFormContext();
 
   return (
@@ -29,6 +29,7 @@ const GlobalUploadFile = ({ name, label }: any) => {
           role={undefined}
           variant="contained"
           tabIndex={-1}
+          sx={{ backgroundColor: "black" }}
           startIcon={<CloudUploadIcon />}
         >
           {label || "Upload file"}
