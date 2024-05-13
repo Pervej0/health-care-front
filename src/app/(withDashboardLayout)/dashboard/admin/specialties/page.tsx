@@ -23,7 +23,6 @@ import { IResponse } from "@/types";
 const SpecialtiesPage = () => {
   const { data, isLoading } = useGetAllSpecialtyQuery({});
   const [open, setOpen] = useState(false);
-  const specialty = useDeleteSpecialtyMutation();
   const [deleteSpecialty] = useDeleteSpecialtyMutation();
 
   console.log(data, isLoading, "xxxxx");

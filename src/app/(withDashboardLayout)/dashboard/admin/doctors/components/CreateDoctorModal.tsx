@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
-import { useCreateDoctorMutation } from "@/redux/api/admin/adminApi";
+import { useCreateDoctorMutation } from "@/redux/api/doctor/doctorApi";
 import convertToFormData from "@/utils/ConvertToFormData";
 import { Toaster, toast } from "sonner";
 
@@ -51,17 +51,16 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
   const handleSubmit = async (values: FieldValues) => {
     values.doctor.experience = Number(values.doctor.experience);
     values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
-    console.log(values, "xx");
     const data = convertToFormData(values);
 
     try {
       const result = await createDoctor(data).unwrap();
-      console.log(result, "xx");
       if (result.data.id) {
         toast.success(result.message);
         setOpen(false);
       }
-    } catch (err) {
+    } catch (err: any) {
+      toast.error(err.data.message);
       console.log(err);
     }
   };
@@ -100,10 +99,16 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
           <GlobalForm onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={12} md={4}>
-                <GlobalInput name="doctor.name" label="Name" fullWidth={true} />
+                <GlobalInput
+                  required={true}
+                  name="doctor.name"
+                  label="Name"
+                  fullWidth={true}
+                />
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.email"
                   label="Email"
                   fullWidth={true}
@@ -111,6 +116,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="password"
                   label="Password"
                   type="password"
@@ -120,6 +126,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
 
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.contactNumber"
                   label="Contact Number"
                   fullWidth={true}
@@ -127,6 +134,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.address"
                   label="Address"
                   fullWidth={true}
@@ -134,6 +142,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.registrationNumber"
                   label="Registration Number"
                   fullWidth={true}
@@ -141,6 +150,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.experience"
                   label="experience"
                   type="number"
@@ -149,6 +159,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalSelect
+                  required={true}
                   options={genderOptions}
                   name="doctor.gender"
                   size="small"
@@ -158,6 +169,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.appointmentFee"
                   size="small"
                   type="number"
@@ -167,6 +179,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.qualification"
                   size="small"
                   label="Qualification"
@@ -175,6 +188,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.currentWorkingPlace"
                   size="small"
                   label="Current Working Place"
@@ -183,6 +197,7 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
               </Grid>
               <Grid item xs={12} sm={12} md={4}>
                 <GlobalInput
+                  required={true}
                   name="doctor.designation"
                   size="small"
                   label="Designation"

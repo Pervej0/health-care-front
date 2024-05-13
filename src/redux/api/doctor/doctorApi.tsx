@@ -1,3 +1,4 @@
+import { IMeta } from "@/types";
 import { baseApi } from "../baseApi";
 import { tagTypes } from "../tag-type";
 
@@ -13,10 +14,17 @@ const AdminApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.admin],
     }),
     getAllAdmins: build.query({
-      query: () => {
+      query: (args) => {
         return {
           url: "/doctors",
           method: "GET",
+          params: args,
+        };
+      },
+      transformResponse: (response: any) => {
+        return {
+          data: response.data,
+          meta: response.meta,
         };
       },
       providesTags: [tagTypes.admin],
