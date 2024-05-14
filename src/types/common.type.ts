@@ -18,11 +18,6 @@ export interface ISidebarItems {
   child?: ISidebarItems[];
 }
 
-export interface IResponse {
-  data: any;
-  meta?: IMeta;
-}
-
 export interface IErrorResponse {
   statusCode: number;
   message: string;
@@ -38,6 +33,7 @@ export interface IResponse {
   success: boolean;
   message: string;
   data: any;
+  meta?: IMeta;
 }
 
 export type TGlobalModal = {

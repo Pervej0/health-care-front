@@ -1,15 +1,14 @@
 import GlobalDatePicker from "@/components/Form/GlobalDatePicker";
 import GlobalForm from "@/components/Form/GlobalForm";
-import GlobalInput from "@/components/Form/GlobalInput";
 import GlobalTimePicker from "@/components/Form/GlobalTimePicker";
-import GlobalUploadFile from "@/components/Form/GlobalUploadFile";
 import GlobalModal from "@/components/Shared/GlobalModal";
+import { useCreateScheduleMutation } from "@/redux/api/schedule/scheduleApi";
 import dateFormatter from "@/utils/dateFormatter";
 import timeFormatter from "@/utils/timeFormatter";
 import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
-import { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 
 type TModal = {
   open: boolean;
@@ -17,12 +16,23 @@ type TModal = {
 };
 
 const CreateScheduleModal = ({ open, setOpen }: TModal) => {
-  const handleSubmit = (values: FieldValues) => {
+  const [createSchedule] = useCreateScheduleMutation();
+
+  const handleSubmit = async (values: FieldValues) => {
     values.startDate = dateFormatter(values.startDate);
     values.endDate = dateFormatter(values.endDate);
     values.startTime = timeFormatter(values.startTime);
     values.endTime = timeFormatter(values.endTime);
-    console.log(values);
+    // console.log(values);
+    // return;
+    try {
+      const data = await createSchedule(values);
+      console.log(data, "xxx");
+      setOpen(false);
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err.data.message);
+    }
   };
 
   return (

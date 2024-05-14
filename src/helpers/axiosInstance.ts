@@ -1,7 +1,12 @@
 import { authKey } from "@/constant/authKey";
-import { IErrorResponse, IResponse } from "@/types";
+import { IErrorResponse, IMeta } from "@/types";
 import { getTokenFromLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
+
+interface IResponse {
+  data: any;
+  meta: IMeta;
+}
 
 const instance = axios.create();
 //   default headers must include in production grade
@@ -29,7 +34,7 @@ axios.interceptors.response.use(
   // @ts-ignore
   function (response) {
     const responseObj: IResponse = {
-      data: response?.data?.data,
+      data: response?.data,
       meta: response?.data?.meta,
     };
     return responseObj;
