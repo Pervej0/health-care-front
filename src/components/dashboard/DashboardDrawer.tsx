@@ -14,9 +14,12 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Badge, Button, Menu, MenuItem } from "@mui/material";
+import { Avatar, Badge, Button, Menu, MenuItem, Stack } from "@mui/material";
 import { getUserInfo, removeUser } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
+import { useGetSingleUserQuery } from "@/redux/api/user/userApi";
+import AccountMenu from "./AccountMenu/AccountMenu";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 
 const drawerWidth = 240;
 const menuId = "primary-search-account-menu";
@@ -31,6 +34,7 @@ export default function ResponsiveDrawer({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const { data: user } = useGetSingleUserQuery({});
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const router = useRouter();
@@ -182,7 +186,7 @@ export default function ResponsiveDrawer({
               component="div"
               sx={{ color: "rgba(11, 17, 52, 0.6)" }}
             >
-              Hi,
+              Hi, {user?.data?.name}
             </Typography>
             <Typography
               variant="h6"
@@ -194,40 +198,15 @@ export default function ResponsiveDrawer({
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-              sx={{ backgroundColor: "gray" }}
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-              sx={{ backgroundColor: "gray" }}
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              sx={{ backgroundColor: "gray" }}
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
+          <Stack direction="row" gap={3}>
+            <Badge badgeContent={1} color="primary">
+              <IconButton sx={{ background: "#ffffff" }}>
+                <NotificationsNoneIcon color="action" />
+              </IconButton>
+            </Badge>
+            <Avatar alt={user?.data?.name} src={user?.data?.profilePhoto} />
+            <AccountMenu />
+          </Stack>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -243,7 +222,7 @@ export default function ResponsiveDrawer({
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+      {/* {renderMenu} */}
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

@@ -1,3 +1,5 @@
+"use client";
+
 import { List, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import assets from "@/assets";
@@ -7,6 +9,7 @@ import { TUserRole } from "@/types";
 import MenuItems from "./MenuItems";
 import { getUserInfo } from "@/services/auth.services";
 import { useEffect, useState } from "react";
+import { useGetSingleUserQuery } from "@/redux/api/user/userApi";
 
 const DashboardSidebar = () => {
   const [currentUser, setCurrentUser] = useState("");
@@ -17,7 +20,7 @@ const DashboardSidebar = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <Stack direction="row" gap={1} px={2} py={2} component={Link} href="/">
         <Image src={assets.svgs.logo} alt="brand logo" width={40} height={40} />
         <Typography variant="h6" component="h6">
@@ -31,7 +34,7 @@ const DashboardSidebar = () => {
           )
         )}
       </List>
-    </div>
+    </>
   );
 };
 
