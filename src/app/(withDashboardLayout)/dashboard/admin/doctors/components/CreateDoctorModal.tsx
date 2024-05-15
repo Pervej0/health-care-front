@@ -11,6 +11,7 @@ import { FieldValues } from "react-hook-form";
 import { useCreateDoctorMutation } from "@/redux/api/doctor/doctorApi";
 import convertToFormData from "@/utils/ConvertToFormData";
 import { Toaster, toast } from "sonner";
+import { genderOptions } from "@/constant/common";
 
 type TModal = {
   open: boolean;
@@ -63,29 +64,6 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
       toast.error(err.data.message);
       console.log(err);
     }
-  };
-
-  const genderOptions = [
-    { value: "Male", label: "Male" },
-    { value: "Female", label: "Female" },
-  ];
-
-  const defaultValues = {
-    doctor: {
-      email: "",
-      name: "",
-      contactNumber: "",
-      address: "",
-      registrationNumber: "",
-      gender: "",
-      experience: 0,
-      apointmentFee: 0,
-      qualification: "",
-      currentWorkingPlace: "",
-      designation: "",
-      profilePhoto: "",
-    },
-    password: "",
   };
 
   return (

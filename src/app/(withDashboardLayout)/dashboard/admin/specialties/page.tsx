@@ -25,8 +25,6 @@ const SpecialtiesPage = () => {
   const [open, setOpen] = useState(false);
   const [deleteSpecialty] = useDeleteSpecialtyMutation();
 
-  console.log(data, isLoading, "xxxxx");
-
   const handleDelete = async (id: string) => {
     try {
       const result = (await deleteSpecialty(id)) as IResponse;

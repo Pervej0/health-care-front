@@ -22,6 +22,7 @@ import dateFormatter from "@/utils/dateFormatter";
 import timeFormatter from "@/utils/timeFormatter";
 import { Toaster, toast } from "sonner";
 import { IResponse } from "@/types";
+import dayjs from "dayjs";
 
 const CreateSchedule = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -33,8 +34,8 @@ const CreateSchedule = () => {
       id: item.id,
       startDate: dateFormatter(item.startDateTime),
       endDate: dateFormatter(item.endDateTime),
-      startTime: timeFormatter(item.startDateTime),
-      endTime: timeFormatter(item.endDateTime),
+      startTime: dayjs(item.startDateTime).format("hh:mm a"),
+      endTime: dayjs(item.endDateTime).format("hh:mm a"),
     };
   });
 
@@ -70,11 +71,6 @@ const CreateSchedule = () => {
             >
               <DeleteIcon sx={{ color: "red" }} />
             </IconButton>
-            <Link href={`/dashboard/admin/doctors/edit/${row.id}`}>
-              <IconButton aria-label="delete">
-                <EditIcon />
-              </IconButton>
-            </Link>
           </Box>
         );
       },

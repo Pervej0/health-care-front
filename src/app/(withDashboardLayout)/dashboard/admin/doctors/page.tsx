@@ -31,7 +31,6 @@ const CreateDoctor = () => {
 
   if (!!debounceText) {
     query["searchTerm"] = searchText;
-    console.log(query, "xxx");
   }
   const { isLoading, data } = useGetAllAdminsQuery({ ...query });
 
