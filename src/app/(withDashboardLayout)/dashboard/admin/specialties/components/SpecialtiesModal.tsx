@@ -11,6 +11,7 @@ import convertToFormData from "@/utils/ConvertToFormData";
 import { useCreateSpecialtyMutation } from "@/redux/api/specialties/specialtiesApi";
 import { Toaster, toast } from "sonner";
 import GlobalModal from "@/components/Shared/GlobalModal";
+import { Result } from "postcss";
 
 type TModal = {
   open: boolean;
@@ -30,7 +31,8 @@ export default function SpecialtiesModal({ open, setOpen }: TModal) {
         toast.success(result.message);
         setOpen(false);
       }
-    } catch (err) {
+    } catch (err: any) {
+      toast.error(err.data.message);
       console.log(err);
     }
   };

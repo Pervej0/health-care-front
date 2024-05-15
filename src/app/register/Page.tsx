@@ -18,7 +18,7 @@ import registerPatient from "@/services/actions/registerUser";
 import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalInput from "@/components/Form/GlobalInput";
 import { Global } from "@emotion/react";
-import loginUser from "@/services/actions/loginUser";
+import { loginUser } from "@/services/actions/loginUser";
 import { useRouter } from "next/navigation";
 import { storeUserInfo } from "@/services/auth.services";
 import { z } from "zod";

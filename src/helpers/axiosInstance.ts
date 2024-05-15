@@ -1,4 +1,5 @@
 import { authKey } from "@/constant/authKey";
+import { getNewAccessToken } from "@/services/auth.services";
 import { IErrorResponse, IMeta } from "@/types";
 import { getTokenFromLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
@@ -30,7 +31,7 @@ instance.interceptors.request.use(
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   // @ts-ignore
   function (response) {
     const responseObj: IResponse = {
@@ -39,7 +40,13 @@ axios.interceptors.response.use(
     };
     return responseObj;
   },
-  function (error) {
+  async function (error) {
+    console.log(error);
+    if (error.response.data.statusCode === 400) {
+      const response = await getNewAccessToken();
+      const accessToken = response.data.data.accessToken;
+      console.log(accessToken);
+    }
     const errorResponse: IErrorResponse = {
       statusCode: error.response.data.statusCode || 500,
       message: error.response.data.message || "Something Went Wrong !!!",
