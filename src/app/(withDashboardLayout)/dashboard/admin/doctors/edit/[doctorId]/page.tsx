@@ -8,7 +8,7 @@ import { genderOptions } from "@/constant/common";
 import {
   useSingleDoctorQuery,
   useUpdateDoctorMutation,
-} from "@/redux/api/doctor/doctorApi";
+} from "@/redux/api/admin/doctor/doctorApi";
 import convertToFormData from "@/utils/ConvertToFormData";
 import {
   Box,

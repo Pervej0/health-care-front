@@ -2,7 +2,7 @@ import GlobalDatePicker from "@/components/Form/GlobalDatePicker";
 import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalTimePicker from "@/components/Form/GlobalTimePicker";
 import GlobalModal from "@/components/Shared/GlobalModal";
-import { useCreateScheduleMutation } from "@/redux/api/schedule/scheduleApi";
+import { useCreateScheduleMutation } from "@/redux/api/admin/schedule/scheduleApi";
 import dateFormatter from "@/utils/dateFormatter";
 import timeFormatter from "@/utils/timeFormatter";
 import { Button, Grid } from "@mui/material";

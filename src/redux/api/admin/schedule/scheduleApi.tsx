@@ -1,5 +1,5 @@
-import { baseApi } from "../baseApi";
-import { tagTypes } from "../tag-type";
+import { baseApi } from "../../baseApi";
+import { tagTypes } from "../../tag-type";
 
 const scheduleApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

@@ -15,7 +15,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   useDeleteSpecialtyMutation,
   useGetAllSpecialtyQuery,
-} from "@/redux/api/specialties/specialtiesApi";
+} from "@/redux/api/admin/specialties/specialtiesApi";
 import Image from "next/image";
 import { Toaster, toast } from "sonner";
 import { IResponse } from "@/types";

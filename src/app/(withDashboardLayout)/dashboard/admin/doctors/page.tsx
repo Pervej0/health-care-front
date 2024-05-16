@@ -10,10 +10,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import CreateDoctorModal from "./components/CreateDoctorModal";
-import {
-  useDeleteAdminMutation,
-  useGetAllAdminsQuery,
-} from "@/redux/api/doctor/doctorApi";
+
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +18,10 @@ import Link from "next/link";
 import { IResponse } from "@/types";
 import { Toaster, toast } from "sonner";
 import { useDebounce } from "@/redux/hooks";
+import {
+  useDeleteAdminMutation,
+  useGetAllAdminsQuery,
+} from "@/redux/api/admin/doctor/doctorApi";
 
 const CreateDoctor = () => {
   const [open, setOpen] = useState(false);

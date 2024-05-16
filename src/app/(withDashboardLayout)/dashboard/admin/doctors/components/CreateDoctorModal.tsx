@@ -3,15 +3,14 @@ import GlobalInput from "@/components/Form/GlobalInput";
 import GlobalSelect from "@/components/Form/GlobalSelect";
 import GlobalUploadFile from "@/components/Form/GlobalUploadFile";
 import GlobalFullPageModal from "@/components/Shared/GlobalFullPageModal";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
-import { useCreateDoctorMutation } from "@/redux/api/doctor/doctorApi";
 import convertToFormData from "@/utils/ConvertToFormData";
 import { Toaster, toast } from "sonner";
 import { genderOptions } from "@/constant/common";
+import { useCreateDoctorMutation } from "@/redux/api/admin/doctor/doctorApi";
 
 type TModal = {
   open: boolean;

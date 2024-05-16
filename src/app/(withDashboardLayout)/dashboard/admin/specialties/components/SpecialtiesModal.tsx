@@ -8,7 +8,7 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import GlobalInput from "@/components/Form/GlobalInput";
 import GlobalUploadFile from "@/components/Form/GlobalUploadFile";
 import convertToFormData from "@/utils/ConvertToFormData";
-import { useCreateSpecialtyMutation } from "@/redux/api/specialties/specialtiesApi";
+import { useCreateSpecialtyMutation } from "@/redux/api/admin/specialties/specialtiesApi";
 import { Toaster, toast } from "sonner";
 import GlobalModal from "@/components/Shared/GlobalModal";
 import { Result } from "postcss";

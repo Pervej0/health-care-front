@@ -14,7 +14,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   useDeleteScheduleMutation,
   useGetAllScheduleQuery,
-} from "@/redux/api/schedule/scheduleApi";
+} from "@/redux/api/admin/schedule/scheduleApi";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
