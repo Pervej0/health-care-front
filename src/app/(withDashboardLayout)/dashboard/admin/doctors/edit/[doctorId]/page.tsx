@@ -26,7 +26,6 @@ import { Toaster, toast } from "sonner";
 const Doctor = ({ params }: { params: { doctorId: string } }) => {
   const router = useRouter();
   const { data: doctorData, isLoading } = useSingleDoctorQuery(params.doctorId);
-  const [updatedData, setUpdatedData] = useState<any>({});
   const [updateDoctor] = useUpdateDoctorMutation();
 
   if (isLoading) {
@@ -45,7 +44,6 @@ const Doctor = ({ params }: { params: { doctorId: string } }) => {
 
     try {
       const result = await updateDoctor(data).unwrap();
-      setUpdatedData(result);
       if (result?.data?.id) {
         toast.success("Doctor Updated Successfully!!!");
         router.push("/dashboard/admin/doctors");
@@ -69,7 +67,7 @@ const Doctor = ({ params }: { params: { doctorId: string } }) => {
     currentWorkingPlace,
     designation,
     portfolio,
-  } = updatedData.data || doctorData?.data;
+  } = doctorData?.data;
   const defaultValues = {
     doctor: {
       email: email,

@@ -9,7 +9,6 @@ import { TUserRole } from "@/types";
 import MenuItems from "./MenuItems";
 import { getUserInfo } from "@/services/auth.services";
 import { useEffect, useState } from "react";
-import { useGetSingleUserQuery } from "@/redux/api/user/userApi";
 
 const DashboardSidebar = () => {
   const [currentUser, setCurrentUser] = useState("");

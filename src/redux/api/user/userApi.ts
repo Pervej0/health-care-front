@@ -12,7 +12,16 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.user],
     }),
+    updateUser: build.mutation({
+      query: (data) => ({
+        url: `/users/me`,
+        method: "PUT",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: [tagTypes.admin, tagTypes.doctor],
+    }),
   }),
 });
 
-export const { useGetSingleUserQuery } = userApi;
+export const { useGetSingleUserQuery, useUpdateUserMutation } = userApi;

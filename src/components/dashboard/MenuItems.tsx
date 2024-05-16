@@ -1,5 +1,4 @@
-import { getUserInfo } from "@/services/auth.services";
-import { ISidebarItems, TUserRole } from "@/types";
+import { ISidebarItems } from "@/types";
 import {
   ListItem,
   ListItemButton,
