@@ -52,12 +52,12 @@ const AdminApi = baseApi.injectEndpoints({
     }),
     updateDoctor: build.mutation({
       query: (data) => ({
-        url: "/users/me",
-        method: "PUT",
-        contentType: "multipart/form-data",
+        url: `/doctors/${data.id}`,
+        method: "PATCH",
+        contentType: "application/json",
         data,
       }),
-      // invalidatesTags: [tagTypes.admin, tagTypes.doctor],
+      invalidatesTags: [tagTypes.admin, tagTypes.doctor],
     }),
   }),
 });

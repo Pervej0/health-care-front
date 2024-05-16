@@ -1,7 +1,10 @@
 import { authKey } from "@/constant/authKey";
 import { getNewAccessToken } from "@/services/auth.services";
 import { IErrorResponse, IMeta } from "@/types";
-import { getTokenFromLocalStorage } from "@/utils/localStorage";
+import {
+  getTokenFromLocalStorage,
+  setToLocalStorage,
+} from "@/utils/localStorage";
 import axios from "axios";
 
 interface IResponse {
@@ -41,11 +44,14 @@ instance.interceptors.response.use(
     return responseObj;
   },
   async function (error) {
-    console.log(error);
-    if (error.response.data.statusCode === 400) {
+    const config = error.config;
+    if (error.response.status === 500 && !config.sent) {
+      config.sent = true;
       const response = await getNewAccessToken();
       const accessToken = response.data.data.accessToken;
-      console.log(accessToken);
+      config.headers["authorization"] = accessToken;
+      setToLocalStorage(authKey, accessToken);
+      return instance(config);
     }
     const errorResponse: IErrorResponse = {
       statusCode: error.response.data.statusCode || 500,

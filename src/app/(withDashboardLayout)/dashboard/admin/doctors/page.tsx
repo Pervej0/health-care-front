@@ -37,7 +37,6 @@ const CreateDoctor = () => {
   const handleDelete = async (id: string) => {
     try {
       const result = (await deleteSpecialty(id)) as IResponse;
-      console.log(result, id, "x");
       if (result?.data.success) {
         toast.success(result.data.message);
       }

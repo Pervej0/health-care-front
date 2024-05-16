@@ -24,10 +24,10 @@ import { FieldValues } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 
 const Doctor = ({ params }: { params: { doctorId: string } }) => {
+  const router = useRouter();
   const { data: doctorData, isLoading } = useSingleDoctorQuery(params.doctorId);
   const [updatedData, setUpdatedData] = useState<any>({});
   const [updateDoctor] = useUpdateDoctorMutation();
-  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -46,9 +46,9 @@ const Doctor = ({ params }: { params: { doctorId: string } }) => {
     try {
       const result = await updateDoctor(data).unwrap();
       setUpdatedData(result);
-      router.refresh();
-      if (result.data.id) {
-        toast.success(result.message);
+      if (result?.data?.id) {
+        toast.success("Doctor Updated Successfully!!!");
+        router.push("/dashboard/admin/doctors");
       }
     } catch (err: any) {
       toast.error(err.data.message);
