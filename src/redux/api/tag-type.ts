@@ -9,9 +9,11 @@ export enum tagTypes {
 }
 
 export const tagTypesList = [
+  tagTypes.user,
   tagTypes.specialty,
   tagTypes.admin,
   tagTypes.doctor,
   tagTypes.patient,
   tagTypes.schedule,
+  tagTypes.doctorSchedule,
 ];

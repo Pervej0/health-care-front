@@ -5,6 +5,7 @@ const doctorScheduleApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createDoctorSchedule: build.mutation({
       query: (data) => {
+        console.log(data, "xxxxx");
         return {
           url: "/doctor-schedules/create-doctor-schedule",
           method: "POST",

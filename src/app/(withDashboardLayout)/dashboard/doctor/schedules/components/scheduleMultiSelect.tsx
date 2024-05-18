@@ -22,46 +22,33 @@ const MenuProps = {
 
 function getStyles(
   name: string,
-  scheduleTime: readonly string[],
+  selectedSchedule: readonly string[],
   theme: Theme
 ) {
   return {
     fontWeight:
-      scheduleTime.indexOf(name) === -1
+      selectedSchedule.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
 const ScheduleMultiSelect = ({
-  scheduleTime,
-  setScheduleTime,
+  selectedSchedule,
+  setSelectedSchedule,
   scheduleData,
 }: any) => {
   const theme = useTheme();
 
-  const handleChange = (event: SelectChangeEvent<typeof scheduleTime>) => {
+  const handleChange = (event: SelectChangeEvent<typeof selectedSchedule>) => {
     const {
       target: { value },
     } = event;
-    setScheduleTime(
+    setSelectedSchedule(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
   };
-
-  const names = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder",
-  ];
 
   return (
     <FormControl sx={{ width: "100%" }}>
@@ -72,7 +59,7 @@ const ScheduleMultiSelect = ({
         id="demo-multiple-time-label"
         multiple
         fullWidth={true}
-        value={scheduleTime}
+        value={selectedSchedule}
         onChange={handleChange}
         input={
           <OutlinedInput
@@ -84,8 +71,8 @@ const ScheduleMultiSelect = ({
         }
         renderValue={(selected) => (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {selected.map((value: string) => {
-              const modifiedValue = scheduleData.find(
+            {selected?.map((value: string) => {
+              const modifiedValue = scheduleData?.find(
                 (item: any) => item.id === value
               );
               return (
@@ -106,7 +93,7 @@ const ScheduleMultiSelect = ({
           <MenuItem
             key={item.id}
             value={item.id}
-            style={getStyles(item.startDateTime, scheduleTime, theme)}
+            style={getStyles(item.startDateTime, selectedSchedule, theme)}
           >
             {dayjs(item.startDateTime).format("hh:mm a")}-
             {dayjs(item.endDateTime).format("hh:mm a")}

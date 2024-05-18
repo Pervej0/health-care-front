@@ -1,21 +1,21 @@
 import GlobalDatePicker from "@/components/Form/GlobalDatePicker";
 import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalModal from "@/components/Shared/GlobalModal";
-import { useGetAllScheduleQuery } from "@/redux/api/admin/schedule/scheduleApi";
+import {
+  useCreateScheduleMutation,
+  useGetAllScheduleQuery,
+} from "@/redux/api/admin/schedule/scheduleApi";
 import { TModal } from "@/types";
-import { Button, FormControl, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { FieldValue, FieldValues } from "react-hook-form";
-import { Toaster } from "sonner";
+import { Toaster, toast } from "sonner";
 import ScheduleMultiSelect from "./scheduleMultiSelect";
-import GlobalSelect from "@/components/Form/GlobalSelect";
-import {
-  DatePicker,
-  DesktopDatePicker,
-  LocalizationProvider,
-} from "@mui/x-date-pickers";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import LoadingButton from "@mui/lab/LoadingButton";
+
+import { useCreateDoctorScheduleMutation } from "@/redux/api/doctor/doctorScheduleApi";
 
 const DoctorScheduleModal = ({ open, setOpen }: TModal) => {
   const [selectDate, setSelectDate] = useState({
@@ -31,7 +31,9 @@ const DoctorScheduleModal = ({ open, setOpen }: TModal) => {
       .toISOString(),
   });
   const { data: scheduleData, isLoading } = useGetAllScheduleQuery(selectDate);
-  const [scheduleTime, setScheduleTime] = React.useState<string[]>([]);
+  const [selectedSchedule, setSelectedSchedule] = React.useState<string[]>([]);
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [createDoctorSchedule] = useCreateDoctorScheduleMutation();
 
   const handleDateChange = (value: any) => {
     const query: any = {};
@@ -48,9 +50,24 @@ const DoctorScheduleModal = ({ open, setOpen }: TModal) => {
     setSelectDate(query);
   };
 
-  const handleSubmit = (e: any) => {
-    console.log({ selectDate, scheduleTime }, "pxpxpx");
-    e.preventDefault();
+  const handleSubmit = async (e: any) => {
+    setLoadingButton(true);
+    const data = { schedules: [...selectedSchedule] };
+    console.log(data, "xx");
+    try {
+      const result = await createDoctorSchedule(data).unwrap();
+      console.log(result, "eree");
+      if (result.success) {
+        toast.success(result.message);
+        setOpen(false);
+      }
+    } catch (err: any) {
+      toast.error(err.data.message);
+      console.log(err);
+    }
+    setSelectedSchedule([]);
+    setLoadingButton(false);
+    setOpen(false);
   };
 
   return (
@@ -62,30 +79,34 @@ const DoctorScheduleModal = ({ open, setOpen }: TModal) => {
           open={open}
           setOpen={setOpen}
         >
-          <form style={{ padding: "30px" }} onSubmit={handleSubmit}>
-            <Grid container spacing={2} sx={{ width: "400px" }}>
-              <Grid item xs={12}>
-                <DesktopDatePicker
-                  // value={(date: any) => dayjs(date) || dayjs(Date.now())}
-                  // disablePast={true}
-                  timezone="system"
-                  onChange={handleDateChange}
-                  slotProps={{ textField: { size: "small", fullWidth: true } }}
-                  label="Select Date"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <ScheduleMultiSelect
-                  scheduleData={scheduleData?.data}
-                  scheduleTime={scheduleTime}
-                  setScheduleTime={setScheduleTime}
-                />
-              </Grid>
+          <Grid container spacing={2} sx={{ width: "400px" }}>
+            <Grid item xs={12}>
+              <DesktopDatePicker
+                // value={(date: any) => dayjs(date) || dayjs(Date.now())}
+                // disablePast={true}
+                timezone="system"
+                onChange={handleDateChange}
+                slotProps={{ textField: { size: "small", fullWidth: true } }}
+                label="Select Date"
+              />
             </Grid>
-            <Button sx={{ mt: 2 }} type="submit">
-              Create
-            </Button>
-          </form>
+            <Grid item xs={12}>
+              <ScheduleMultiSelect
+                scheduleData={scheduleData?.data}
+                selectedSchedule={selectedSchedule}
+                setSelectedSchedule={setSelectedSchedule}
+              />
+            </Grid>
+          </Grid>
+          <LoadingButton
+            onClick={handleSubmit}
+            variant="outlined"
+            loading={loadingButton}
+            sx={{ mt: 2 }}
+            type="submit"
+          >
+            Create
+          </LoadingButton>
         </GlobalModal>
       </LocalizationProvider>
     </>

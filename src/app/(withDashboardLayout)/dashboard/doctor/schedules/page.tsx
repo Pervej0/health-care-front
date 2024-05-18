@@ -4,10 +4,12 @@ import { Button, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Toaster } from "sonner";
 import DoctorScheduleModal from "./components/doctorScheduleModal";
+import { useGetAllDoctorScheduleQuery } from "@/redux/api/doctor/doctorScheduleApi";
 
 const DoctorSchedule = () => {
   const [open, setOpen] = useState<boolean>(false);
-
+  const { data, isLoading } = useGetAllDoctorScheduleQuery({});
+  // console.log(data)
   return (
     <>
       <Toaster position="top-center" />
