@@ -3,17 +3,13 @@ import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalTimePicker from "@/components/Form/GlobalTimePicker";
 import GlobalModal from "@/components/Shared/GlobalModal";
 import { useCreateScheduleMutation } from "@/redux/api/admin/schedule/scheduleApi";
+import { TModal } from "@/types";
 import dateFormatter from "@/utils/dateFormatter";
 import timeFormatter from "@/utils/timeFormatter";
 import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
 import { Toaster, toast } from "sonner";
-
-type TModal = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
 const CreateScheduleModal = ({ open, setOpen }: TModal) => {
   const [createSchedule] = useCreateScheduleMutation();
@@ -26,8 +22,11 @@ const CreateScheduleModal = ({ open, setOpen }: TModal) => {
     // console.log(values);
     // return;
     try {
-      const data = await createSchedule(values);
-      console.log(data, "xxx");
+      const result = await createSchedule(values).unwrap();
+      if (result.result?.id) {
+        toast.success(result?.message);
+        setOpen(false);
+      }
       setOpen(false);
     } catch (err: any) {
       console.log(err);

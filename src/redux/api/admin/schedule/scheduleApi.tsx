@@ -14,13 +14,14 @@ const scheduleApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.schedule],
     }),
     getAllSchedule: build.query({
-      query: () => {
+      query: (args) => {
         return {
           url: "/schedules",
           method: "GET",
+          params: args,
         };
       },
-      providesTags: [tagTypes.schedule],
+      providesTags: [tagTypes.schedule, tagTypes.doctorSchedule],
     }),
     deleteSchedule: build.mutation({
       query: (id) => {

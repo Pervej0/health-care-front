@@ -42,3 +42,8 @@ export type TGlobalModal = {
   title?: string;
   children: React.ReactNode;
 };
+
+export type TModal = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
