@@ -20,6 +20,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { IResponse } from "@/types";
+import dateFormatter from "@/utils/dateFormatter";
 
 const DoctorSchedule = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -27,7 +28,6 @@ const DoctorSchedule = () => {
   const [deleteDoctorSchedule] = useDeleteDoctorScheduleMutation();
 
   const handleDelete = async (id: string) => {
-    console.log(id);
     try {
       const result = (await deleteDoctorSchedule(id)) as IResponse;
       if (result?.data.success) {
@@ -46,7 +46,15 @@ const DoctorSchedule = () => {
       renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1,
     },
     {
-      field: "start",
+      field: "startDate",
+      headerName: "Date",
+      width: 250,
+      renderCell: ({ row }) => (
+        <Typography>{dateFormatter(row.schedule.startDateTime)}</Typography>
+      ),
+    },
+    {
+      field: "schedule",
       headerName: "Schedule",
       width: 230,
       renderCell: ({ row }) => (

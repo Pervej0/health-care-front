@@ -16,10 +16,10 @@ const userApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: `/users/me`,
         method: "PUT",
-        contentType: "application/json",
+        contentType: "multipart/form-data",
         data,
       }),
-      invalidatesTags: [tagTypes.admin, tagTypes.doctor],
+      invalidatesTags: [tagTypes.admin, tagTypes.doctor, tagTypes.user],
     }),
   }),
 });

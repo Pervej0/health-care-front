@@ -1,78 +1,23 @@
 import GlobalForm from "@/components/Form/GlobalForm";
 import GlobalInput from "@/components/Form/GlobalInput";
 import GlobalSelect from "@/components/Form/GlobalSelect";
-import GlobalUploadFile from "@/components/Form/GlobalUploadFile";
 import GlobalFullPageModal from "@/components/Shared/GlobalFullPageModal";
-import { z } from "zod";
+import { genderOptions } from "@/constant/common";
+import { TModal } from "@/types";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
-import convertToFormData from "@/utils/ConvertToFormData";
-import { Toaster, toast } from "sonner";
-import { genderOptions } from "@/constant/common";
-import { useCreateDoctorMutation } from "@/redux/api/admin/doctor/doctorApi";
 
-type TModal = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-// const DoctorSchema = z.object({
-//   name: z.string({ required_error: "Please, Enter your name" }),
-//   email: z
-//     .string({ required_error: "Please, Enter your email" })
-//     .email("Please, Enter valid email"),
-//   password: z.string({ required_error: "Please, Enter your password" }),
-//   contactNumber: z.string({
-//     required_error: "Please, Enter your contactNumber",
-//   }),
-//   address: z.string({ required_error: "Please, Enter your address" }),
-//   registrationNumber: z.string({
-//     required_error: "Please, Enter your registration",
-//   }),
-//   experience: z.number(),
-//   gender: z.enum(["Male", "Female"], {
-//     required_error: "Please, Select your gender",
-//   }),
-//   appointmentFee: z.number({
-//     required_error: "Please, Enter your Appointment Fee",
-//   }),
-//   qualification: z.string({
-//     required_error: "Please, Enter your qualification",
-//   }),
-//   currentWorkingPlace: z.string({
-//     required_error: "Please, Enter your password",
-//   }),
-//   designation: z.string({ required_error: "Please, Enter your password" }),
-// });
-
-const CreateDoctorModal = ({ open, setOpen }: TModal) => {
-  const [createDoctor] = useCreateDoctorMutation();
-
-  const handleSubmit = async (values: FieldValues) => {
-    values.doctor.experience = Number(values.doctor.experience);
-    values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
-    const data = convertToFormData(values);
-
-    try {
-      const result = await createDoctor(data).unwrap();
-      if (result.data.id) {
-        toast.success(result.message);
-        setOpen(false);
-      }
-    } catch (err: any) {
-      toast.error(err.data.message);
-      console.log(err);
-    }
+const ProfileUpdateModal = ({ open, setOpen, id }: TModal & { id: string }) => {
+  const handleSubmit = (values: FieldValues) => {
+    console.log(values);
   };
-
   return (
     <>
-      <Toaster position="top-center" />
       <GlobalFullPageModal open={open} setOpen={setOpen}>
         <Container>
           <Typography variant="h5" component="h5" mb={3} mt={2}>
-            Create a new Doctor
+            Update Your Profile
           </Typography>
           <GlobalForm onSubmit={handleSubmit}>
             <Grid container spacing={3}>
@@ -182,14 +127,6 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
                   fullWidth={true}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <GlobalUploadFile
-                  name="file"
-                  size="small"
-                  label="Upload image"
-                  fullWidth={true}
-                />
-              </Grid>
             </Grid>
             <Button sx={{ mt: 2 }} type="submit">
               Create
@@ -201,4 +138,4 @@ const CreateDoctorModal = ({ open, setOpen }: TModal) => {
   );
 };
 
-export default CreateDoctorModal;
+export default ProfileUpdateModal;

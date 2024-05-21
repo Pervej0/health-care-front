@@ -45,7 +45,7 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const config = error.config;
-    if (error.response.status === 500 && !config.sent) {
+    if (error.response.status === 400 && !config.sent) {
       config.sent = true;
       const response = await getNewAccessToken();
       const accessToken = response.data.data.accessToken;
@@ -54,7 +54,7 @@ instance.interceptors.response.use(
       return instance(config);
     }
     const errorResponse: IErrorResponse = {
-      statusCode: error.response.data.statusCode || 500,
+      statusCode: error.response.data,
       message: error.response.data.message || "Something Went Wrong !!!",
       errorMessages: error?.response?.data?.message,
     };
