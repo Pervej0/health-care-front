@@ -17,35 +17,6 @@ type TModal = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-// const DoctorSchema = z.object({
-//   name: z.string({ required_error: "Please, Enter your name" }),
-//   email: z
-//     .string({ required_error: "Please, Enter your email" })
-//     .email("Please, Enter valid email"),
-//   password: z.string({ required_error: "Please, Enter your password" }),
-//   contactNumber: z.string({
-//     required_error: "Please, Enter your contactNumber",
-//   }),
-//   address: z.string({ required_error: "Please, Enter your address" }),
-//   registrationNumber: z.string({
-//     required_error: "Please, Enter your registration",
-//   }),
-//   experience: z.number(),
-//   gender: z.enum(["Male", "Female"], {
-//     required_error: "Please, Select your gender",
-//   }),
-//   appointmentFee: z.number({
-//     required_error: "Please, Enter your Appointment Fee",
-//   }),
-//   qualification: z.string({
-//     required_error: "Please, Enter your qualification",
-//   }),
-//   currentWorkingPlace: z.string({
-//     required_error: "Please, Enter your password",
-//   }),
-//   designation: z.string({ required_error: "Please, Enter your password" }),
-// });
-
 const CreateDoctorModal = ({ open, setOpen }: TModal) => {
   const [createDoctor] = useCreateDoctorMutation();
 

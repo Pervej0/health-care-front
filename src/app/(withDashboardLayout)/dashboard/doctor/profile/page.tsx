@@ -104,7 +104,7 @@ const UpdateDoctorProfile = () => {
               </Button>
             </Grid>
             <Grid xs={12} md={8}>
-              <DoctorInformation doctorData={user.data} />
+              <DoctorInformation doctorData={user?.data} />
             </Grid>
           </Grid>
         </Container>
