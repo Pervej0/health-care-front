@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
-import dayjs from "dayjs";
+import { CircularProgress } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -36,9 +36,17 @@ function getStyles(
 const MultiSpecialtySelect = ({
   selectedSpecialty,
   setSelectedSpecialty,
-  SpecialtyData,
+  specialtyData,
 }: any) => {
   const theme = useTheme();
+
+  if (!specialtyData) {
+    return (
+      <Box textAlign="center">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   const handleChange = (event: SelectChangeEvent<typeof selectedSpecialty>) => {
     const {
@@ -72,31 +80,22 @@ const MultiSpecialtySelect = ({
         renderValue={(selected) => (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             {selected?.map((value: string) => {
-              const modifiedValue = SpecialtyData?.find(
+              const modifiedValue = specialtyData?.find(
                 (item: any) => item.id === value
               );
-              return (
-                <Chip
-                  key={value}
-                  label={`${dayjs(modifiedValue.startDateTime).format(
-                    "hh:mm a"
-                  )} -
-                  ${dayjs(modifiedValue.endDateTime).format("hh:mm a")}`}
-                />
-              );
+              return <Chip key={value} label={modifiedValue.title} />;
             })}
           </Box>
         )}
         MenuProps={MenuProps}
       >
-        {SpecialtyData?.map((item: any) => (
+        {specialtyData?.map((item: any) => (
           <MenuItem
             key={item.id}
             value={item.id}
             style={getStyles(item.startDateTime, selectedSpecialty, theme)}
           >
-            {dayjs(item.startDateTime).format("hh:mm a")}-
-            {dayjs(item.endDateTime).format("hh:mm a")}
+            {item.title}
           </MenuItem>
         ))}
       </Select>

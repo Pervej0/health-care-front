@@ -10,7 +10,7 @@ const userApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-      providesTags: [tagTypes.user],
+      providesTags: [tagTypes.user, tagTypes.doctor],
     }),
     updateUser: build.mutation({
       query: (data) => ({

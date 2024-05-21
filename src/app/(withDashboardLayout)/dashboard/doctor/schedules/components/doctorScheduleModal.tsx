@@ -53,10 +53,8 @@ const DoctorScheduleModal = ({ open, setOpen }: TModal) => {
   const handleSubmit = async (e: any) => {
     setLoadingButton(true);
     const data = { schedules: [...selectedSchedule] };
-    console.log(data, "xx");
     try {
       const result = await createDoctorSchedule(data).unwrap();
-      console.log(result, "eree");
       if (result.success) {
         toast.success(result.message);
         setOpen(false);

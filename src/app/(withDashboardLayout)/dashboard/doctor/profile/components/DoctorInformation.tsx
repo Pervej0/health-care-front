@@ -12,14 +12,14 @@ const StyledInformationBox = styled(Box)(({ theme }) => ({
 }));
 
 const DoctorInformation = ({ doctorData }: any) => {
-  console.log(doctorData, "xxx");
+  console.log(doctorData, "pooo");
   return (
     <>
       <Typography variant="h5" color="primary.main" mb={2}>
         Personal Information
       </Typography>
 
-      <Stack direction={{ xs: "column", md: "row" }} gap={2} flexWrap={"wrap"}>
+      <Stack direction={{ xs: "column", md: "row" }} gap={3} flexWrap={"wrap"}>
         <StyledInformationBox>
           <Typography color="secondary" variant="caption">
             Role
@@ -55,7 +55,7 @@ const DoctorInformation = ({ doctorData }: any) => {
       <Typography variant="h5" my={2} color={"primary.main"}>
         Professional Information
       </Typography>
-      <Stack direction={{ xs: "column", md: "row" }} flexWrap={"wrap"} gap={2}>
+      <Stack direction={{ xs: "column", md: "row" }} flexWrap={"wrap"} gap={3}>
         <StyledInformationBox>
           <Typography variant="caption" color="secondary">
             Anointment Fee
@@ -105,6 +105,13 @@ const DoctorInformation = ({ doctorData }: any) => {
             experience
           </Typography>
           <Typography>{doctorData?.experience}</Typography>
+        </StyledInformationBox>
+        <StyledInformationBox>
+          {doctorData?.doctorSpecialties?.map((item: any) => (
+            <Typography key={item?.specialties?.id}>
+              {item?.specialties?.title}
+            </Typography>
+          ))}
         </StyledInformationBox>
       </Stack>
     </>

@@ -55,9 +55,9 @@ const AdminApi = baseApi.injectEndpoints({
         url: `/doctors/${data.id}`,
         method: "PATCH",
         contentType: "application/json",
-        data,
+        data: data.updatedData,
       }),
-      invalidatesTags: [tagTypes.admin, tagTypes.doctor],
+      invalidatesTags: [tagTypes.admin, tagTypes.doctor, tagTypes.user],
     }),
   }),
 });
