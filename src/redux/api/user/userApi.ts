@@ -14,7 +14,7 @@ const userApi = baseApi.injectEndpoints({
     }),
     updateUser: build.mutation({
       query: (data) => ({
-        url: `/users/me`,
+        url: "/users/me",
         method: "PUT",
         contentType: "multipart/form-data",
         data,

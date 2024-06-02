@@ -85,7 +85,7 @@ const ProfileUpdateModal = ({
   const handleSubmit = async (values: FieldValues) => {
     const data = {
       id,
-      updatedData: {
+    updatedData: {
         ...values,
         doctorSpecialties: selectedSpecialty.map((item) => ({
           specialtiesId: item,

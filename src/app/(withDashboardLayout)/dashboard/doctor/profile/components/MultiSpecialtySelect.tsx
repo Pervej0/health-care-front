@@ -80,7 +80,6 @@ const MultiSpecialtySelect = ({
         renderValue={(selected) => (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             {selected?.map((value: string) => {
-              console.log(value, "xxxxxxxxx");
               const modifiedValue = specialtyData?.find(
                 (item: any) => item.id === value
               );

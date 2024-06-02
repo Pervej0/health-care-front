@@ -9,7 +9,6 @@ const registerPatient = async (data: FormData) => {
     }
   );
   const result = await response.json();
-  console.log(result, "xxx");
   return result;
 };
 

@@ -49,6 +49,7 @@ const DoctorProfile = () => {
     }
   };
   const { email, name, contactNumber, portfolio } = userData?.data;
+
   const defaultValues = {
     doctor: {
       email: email,
@@ -63,7 +64,7 @@ const DoctorProfile = () => {
       <Toaster position="top-center" />
       <Container>
         <Typography variant="h5" component="h5" mb={3} mt={8}>
-          Update a Doctor
+          Update your profile
         </Typography>
         <GlobalForm defaultValues={defaultValues} onSubmit={handleSubmit}>
           <Grid container spacing={3}>
