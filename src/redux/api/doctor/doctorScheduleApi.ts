@@ -22,11 +22,12 @@ const doctorScheduleApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.doctorSchedule],
     }),
-    getSingleDoctorSchedule: build.query({
-      query: () => {
+    geMySchedule: build.query({
+      query: (params) => {
         return {
           url: "/doctor-schedules/my-schedules",
           method: "GET",
+          params: params,
         };
       },
       providesTags: [tagTypes.doctorSchedule],
@@ -48,6 +49,6 @@ const doctorScheduleApi = baseApi.injectEndpoints({
 export const {
   useCreateDoctorScheduleMutation,
   useGetAllDoctorScheduleQuery,
-  useGetSingleDoctorScheduleQuery,
+  useGeMyScheduleQuery,
   useDeleteDoctorScheduleMutation,
 } = doctorScheduleApi;

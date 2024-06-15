@@ -85,7 +85,7 @@ const ProfileUpdateModal = ({
   const handleSubmit = async (values: FieldValues) => {
     const data = {
       id,
-    updatedData: {
+      updatedData: {
         ...values,
         doctorSpecialties: selectedSpecialty.map((item) => ({
           specialtiesId: item,
@@ -93,7 +93,7 @@ const ProfileUpdateModal = ({
         })),
       },
     };
-
+    console.log(data, "xx");
     try {
       const result = (await updateDoctor(data).unwrap()) as IResponse;
       if (result.success) {

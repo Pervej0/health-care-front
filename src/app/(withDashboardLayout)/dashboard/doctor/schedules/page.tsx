@@ -5,16 +5,17 @@ import {
   Button,
   CircularProgress,
   IconButton,
+  Pagination,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import DoctorScheduleModal from "./components/doctorScheduleModal";
 import {
   useDeleteDoctorScheduleMutation,
-  useGetSingleDoctorScheduleQuery,
+  useGeMyScheduleQuery,
 } from "@/redux/api/doctor/doctorScheduleApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,9 +25,16 @@ import dateFormatter from "@/utils/dateFormatter";
 
 const DoctorSchedule = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const { data, isLoading } = useGetSingleDoctorScheduleQuery({});
+  const query: Record<string, any> = {};
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(3);
+  query["page"] = page;
+  query["limit"] = limit;
+  const [allSchedule, setAllSchedule] = useState<any>([]);
+  const { data, isLoading } = useGeMyScheduleQuery({ ...query });
   const [deleteDoctorSchedule] = useDeleteDoctorScheduleMutation();
 
+  console.log(data, "Heloooo");
   const handleDelete = async (id: string) => {
     try {
       const result = (await deleteDoctorSchedule(id)) as IResponse;
@@ -38,10 +46,34 @@ const DoctorSchedule = () => {
     }
   };
 
+  const meta = data?.meta;
+
+  let pageCount: number;
+
+  if (meta?.total) {
+    pageCount = Math.ceil(meta.total / limit);
+  }
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
+  useEffect(() => {
+    const updateData = data?.data?.map((schedule: any, index: number) => {
+      return {
+        id: schedule?.scheduleId,
+        startDate: dateFormatter(schedule?.schedule?.startDateTime),
+        startTime: dayjs(schedule.schedule?.startDateTime).format("hh:mm a"),
+        endTime: dayjs(schedule?.schedule?.endDateTime).format("hh:mm a"),
+      };
+    });
+    setAllSchedule(updateData);
+  }, [data?.data]);
+
   const columns: GridColDef[] = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "SN",
       width: 70,
       renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1,
     },
@@ -49,20 +81,16 @@ const DoctorSchedule = () => {
       field: "startDate",
       headerName: "Date",
       width: 250,
-      renderCell: ({ row }) => (
-        <Typography>{dateFormatter(row.schedule.startDateTime)}</Typography>
-      ),
     },
     {
-      field: "schedule",
-      headerName: "Schedule",
+      field: "startTime",
+      headerName: "startTime",
       width: 230,
-      renderCell: ({ row }) => (
-        <Typography>
-          {dayjs(row?.schedule.startDateTime).format("hh:mm a")} -{" "}
-          {dayjs(row?.schedule.endDateTime).format("hh:mm a")}
-        </Typography>
-      ),
+    },
+    {
+      field: "endTime",
+      headerName: "End Time",
+      width: 230,
     },
     {
       field: "",
@@ -96,7 +124,6 @@ const DoctorSchedule = () => {
         <TextField size="small" placeholder="Search here" />
         <DoctorScheduleModal open={open} setOpen={setOpen} />
       </Stack>
-      {/* Table */}
       {isLoading ? (
         <Box textAlign="center">
           <CircularProgress />
@@ -104,10 +131,30 @@ const DoctorSchedule = () => {
       ) : (
         <Box sx={{ height: 400, width: "100%" }}>
           <DataGrid
-            rows={data?.data}
+            rows={allSchedule ?? []}
             columns={columns}
-            hideFooter={true}
-            getRowId={() => crypto.randomUUID()}
+            hideFooterPagination
+            // getRowId={() => crypto.randomUUID()}
+            slots={{
+              footer: () => {
+                return (
+                  <Box
+                    sx={{
+                      mb: 2,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Pagination
+                      color="primary"
+                      count={pageCount}
+                      page={page}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                );
+              },
+            }}
           />
         </Box>
       )}
