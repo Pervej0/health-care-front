@@ -1,8 +1,7 @@
 import { baseApi } from "../../baseApi";
-import { useGetAllDoctorScheduleQuery } from "../../doctor/doctorScheduleApi";
 import { tagTypes } from "../../tag-type";
 
-const AdminApi = baseApi.injectEndpoints({
+const DoctorApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createDoctor: build.mutation({
       query: (data) => ({
@@ -69,4 +68,4 @@ export const {
   useDeleteAdminMutation,
   useSingleDoctorQuery,
   useUpdateDoctorMutation,
-} = AdminApi;
+} = DoctorApi;

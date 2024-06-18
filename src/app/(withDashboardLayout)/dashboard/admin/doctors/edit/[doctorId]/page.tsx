@@ -41,7 +41,7 @@ const Doctor = ({ params }: { params: { doctorId: string } }) => {
     values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
     const userData = { ...values.doctor, file: values.file };
     const data = convertToFormData(userData);
-
+    console.log(params.doctorId, "cc");
     try {
       const result = await updateDoctor(data).unwrap();
       if (result?.data?.id) {
@@ -49,7 +49,7 @@ const Doctor = ({ params }: { params: { doctorId: string } }) => {
         router.push("/dashboard/admin/doctors");
       }
     } catch (err: any) {
-      toast.error(err.data.message);
+      toast.error(err.data.message || err.data);
       console.log(err);
     }
   };

@@ -19,8 +19,7 @@ const CreateScheduleModal = ({ open, setOpen }: TModal) => {
     values.endDate = dateFormatter(values.endDate);
     values.startTime = timeFormatter(values.startTime);
     values.endTime = timeFormatter(values.endTime);
-    // console.log(values);
-    // return;
+
     try {
       const result = await createSchedule(values).unwrap();
       if (result.result?.id) {

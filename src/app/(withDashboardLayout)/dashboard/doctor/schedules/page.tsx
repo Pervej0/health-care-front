@@ -34,7 +34,6 @@ const DoctorSchedule = () => {
   const { data, isLoading } = useGeMyScheduleQuery({ ...query });
   const [deleteDoctorSchedule] = useDeleteDoctorScheduleMutation();
 
-  console.log(data, "Heloooo");
   const handleDelete = async (id: string) => {
     try {
       const result = (await deleteDoctorSchedule(id)) as IResponse;

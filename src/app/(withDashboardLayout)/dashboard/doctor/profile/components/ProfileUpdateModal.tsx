@@ -93,7 +93,7 @@ const ProfileUpdateModal = ({
         })),
       },
     };
-    console.log(data, "xx");
+
     try {
       const result = (await updateDoctor(data).unwrap()) as IResponse;
       if (result.success) {

@@ -12,14 +12,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { useGetAllDoctorQuery } from "@/redux/api/admin/doctor/doctorApi";
 
 const TopRatedDoctors = async () => {
   const res = await fetch(
     "http://localhost:5000/api/v1/doctors?page=1&limit=3"
   );
   const { data: doctors } = await res.json();
-  console.log(doctors);
+
   return (
     <Box
       sx={{

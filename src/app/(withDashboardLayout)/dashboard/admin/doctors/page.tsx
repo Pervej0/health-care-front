@@ -20,7 +20,7 @@ import { Toaster, toast } from "sonner";
 import { useDebounce } from "@/redux/hooks";
 import {
   useDeleteAdminMutation,
-  useGetAllAdminsQuery,
+  useGetAllDoctorQuery,
 } from "@/redux/api/admin/doctor/doctorApi";
 
 const CreateDoctor = () => {
@@ -33,7 +33,7 @@ const CreateDoctor = () => {
   if (!!debounceText) {
     query["searchTerm"] = searchText;
   }
-  const { isLoading, data } = useGetAllAdminsQuery({ ...query });
+  const { isLoading, data } = useGetAllDoctorQuery({ ...query });
 
   const handleDelete = async (id: string) => {
     try {
