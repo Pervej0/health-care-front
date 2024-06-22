@@ -1,5 +1,7 @@
 // "use server";
 
+import validateCookieToken from "@/utils/validateCookieToken";
+import { redirect } from "next/dist/server/api-utils";
 import { FieldValues } from "react-hook-form";
 
 export const loginUser = async (data: FieldValues) => {
@@ -13,5 +15,6 @@ export const loginUser = async (data: FieldValues) => {
     // cache: "no-store",
   });
   const result = await response.json();
+  validateCookieToken(result.data.accessToken, { redirect: "/dashboard" });
   return result;
 };

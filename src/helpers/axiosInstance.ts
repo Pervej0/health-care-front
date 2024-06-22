@@ -5,6 +5,7 @@ import {
   getTokenFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/localStorage";
+import validateCookieToken from "@/utils/validateCookieToken";
 import axios from "axios";
 
 interface IResponse {
@@ -51,6 +52,7 @@ instance.interceptors.response.use(
       const accessToken = response.data.data.accessToken;
       config.headers["authorization"] = accessToken;
       setToLocalStorage(authKey, accessToken);
+      validateCookieToken(accessToken);
       return instance(config);
     }
     const errorResponse: IErrorResponse = {

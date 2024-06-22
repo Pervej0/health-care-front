@@ -40,10 +40,13 @@ const Doctor = ({ params }: { params: { doctorId: string } }) => {
     values.doctor.experience = Number(values.doctor.experience);
     values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
     const userData = { ...values.doctor, file: values.file };
-    const data = convertToFormData(userData);
-    console.log(params.doctorId, "cc");
+    // const data = convertToFormData(userData);
+
     try {
-      const result = await updateDoctor(data).unwrap();
+      const result = await updateDoctor({
+        id: params.doctorId,
+        updatedData: userData,
+      }).unwrap();
       if (result?.data?.id) {
         toast.success("Doctor Updated Successfully!!!");
         router.push("/dashboard/admin/doctors");
