@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
+const authRoutes = ["/login", "/register"];
+
 const commonPrivateRoutes = [
   "/dashboard",
   "/dashboard/change-password",
@@ -21,7 +23,11 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    if (authRoutes.includes(pathname)) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
   }
   if (token && commonPrivateRoutes.includes(pathname)) {
     return NextResponse.next();
@@ -48,5 +54,5 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/dashboard/:page*",
+  matcher: ["/login", "/register", "/dashboard/:page*"],
 };

@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { useGetSingleUserQuery } from "@/redux/api/user/userApi";
 import AccountMenu from "./AccountMenu/AccountMenu";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import { removeAuthCookieToken } from "@/utils/validateCookieToken";
 
 const drawerWidth = 240;
 const menuId = "primary-search-account-menu";
@@ -93,7 +94,8 @@ export default function ResponsiveDrawer({
       <Button
         onClick={() => {
           removeUser();
-          router.push("/login");
+          removeAuthCookieToken();
+          // router.push("/login");
         }}
       >
         <MenuItem>Log out</MenuItem>
