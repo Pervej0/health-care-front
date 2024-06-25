@@ -1,3 +1,4 @@
+import { JwtPayload, jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
@@ -26,6 +27,22 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  let decodeData;
+  if (token) {
+    decodeData = jwtDecode(token) as any;
+  }
+
+  const role = decodeData?.role;
+
+  const routes =
+    roleBasedPrivateRoutes[role as keyof typeof roleBasedPrivateRoutes];
+  if (role && routes) {
+    if (routes.some((route) => pathname.match(route))) {
+      return NextResponse.next();
+    }
+  }
+
+  console.log(decodeData);
   return NextResponse.redirect(new URL("/", request.url));
 }
 
