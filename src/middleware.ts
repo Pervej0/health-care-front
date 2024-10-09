@@ -2,6 +2,7 @@ import { JwtPayload, jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { authKey } from "./constant/authKey";
 
 const authRoutes = ["/login", "/register"];
 
@@ -19,7 +20,7 @@ const roleBasedPrivateRoutes = {
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const token = cookies().get("accessToken")?.value;
+  const token = cookies().get(authKey)?.value;
   const { pathname } = request.nextUrl;
 
   if (!token) {
@@ -48,7 +49,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  console.log(decodeData);
   return NextResponse.redirect(new URL("/", request.url));
 }
 

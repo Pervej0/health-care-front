@@ -13,6 +13,8 @@ export const setAuthCookieToken = (token: string, option?: any) => {
   }
 };
 
-export const removeAuthCookieToken = () => {
-  cookies().delete(authKey);
+export const removeAuthCookieToken = (keys: string[]) => {
+  keys.forEach((key) => {
+    cookies().delete(key);
+  });
 };
