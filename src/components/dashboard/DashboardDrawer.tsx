@@ -148,8 +148,6 @@ export default function ResponsiveDrawer({
     </Menu>
   );
 
-  const userInfo = getUserInfo();
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />

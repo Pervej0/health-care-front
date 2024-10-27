@@ -27,6 +27,7 @@ const LoginPage = () => {
 
   const handleLogin: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     const userInfo: FieldValues = await loginUser(data);
+
     if (userInfo.success) {
       toast.success("Logged in successfully.");
       router.push("/dashboard");
