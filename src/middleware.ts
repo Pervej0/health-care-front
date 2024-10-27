@@ -22,7 +22,6 @@ const roleBasedPrivateRoutes = {
 export async function middleware(request: NextRequest) {
   const token = cookies().get(authKey)?.value;
   const { pathname } = request.nextUrl;
-
   if (!token) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();

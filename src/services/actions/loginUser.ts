@@ -2,7 +2,6 @@
 
 import { setAuthCookieToken } from "@/utils/validateCookieToken";
 import { FieldValues } from "react-hook-form";
-import { toast } from "sonner";
 
 export const loginUser = async (data: FieldValues) => {
   const response = await fetch(`${process.env.BACK_END_URL}/auth/login`, {
@@ -17,8 +16,7 @@ export const loginUser = async (data: FieldValues) => {
   const userInfo = await response.json();
   const passwordChangeRequired = userInfo.data?.needPasswordChange;
   if (userInfo.success === false) {
-    toast.error(userInfo.message);
-    return;
+    return userInfo;
   }
   if (userInfo.data.accessToken) {
     setAuthCookieToken(userInfo.data.accessToken, {

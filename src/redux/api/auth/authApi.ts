@@ -1,16 +1,21 @@
 import { baseApi } from "../baseApi";
+import { tagTypes } from "../tag-type";
 
 const AuthApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    changePassword: build.mutation({
-      query: (data) => ({
-        url: "/auth/change-password",
-        method: "POST",
-        contentType: "application/json",
-        data: data,
-      }),
+    updatePassword: build.mutation({
+      query: (data) => {
+        console.log(data);
+        return {
+          url: "/auth/change-password",
+          method: "PUT",
+          contentType: "application/json",
+          data: data,
+        };
+      },
+      invalidatesTags: [tagTypes.user],
     }),
   }),
 });
 
-export const { useChangePasswordMutation } = AuthApi;
+export const { useUpdatePasswordMutation } = AuthApi;

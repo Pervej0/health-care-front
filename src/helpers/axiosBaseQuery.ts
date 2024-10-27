@@ -33,10 +33,12 @@ const axiosBaseQuery =
       });
       return result;
     } catch (axiosError) {
-      const err = axiosError as AxiosError;
+      const err = axiosError as any;
+      console.log(err, "xxxxxxxxxx");
       return {
         error: {
-          status: err.response?.status,
+          success: err.success,
+          statusCode: err.statusCode,
           data: err.response?.data || err.message,
         },
       };

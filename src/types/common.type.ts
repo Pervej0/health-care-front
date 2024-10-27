@@ -19,6 +19,7 @@ export interface ISidebarItems {
 }
 
 export interface IErrorResponse {
+  success: boolean;
   statusCode: number;
   message: string;
   errorMessages: IErrorMessage[];

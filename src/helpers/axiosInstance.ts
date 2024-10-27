@@ -19,9 +19,10 @@ instance.defaults.headers.post["Content-Type"] = "application/json";
 instance.defaults.headers["Accept"] = "application/json";
 instance.defaults.timeout = 60000;
 
-//   interceptors
+// Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
+    // Do something before request is sent
     const accessToken = getTokenFromLocalStorage(authKey);
     if (accessToken) {
       config.headers.authorization = accessToken;
@@ -46,21 +47,24 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const config = error.config;
-    if (error.response.status === 400 || !config.sent) {
-      config.sent = true;
+    console.log(error, config, "response error");
+    if (error.response.status === 400 && !config._retry) {
+      config._retry = true;
       const response = await getNewAccessToken();
       const accessToken = response.data.data.accessToken;
-      config.headers["authorization"] = accessToken;
+      config.headers["Authorization"] = accessToken;
       setToLocalStorage(authKey, accessToken);
       setAuthCookieToken(accessToken);
       return instance(config);
+    } else {
+      const errorResponse: IErrorResponse = {
+        success: error.response.data.success || false,
+        statusCode: error.response.data.statusCode || 500,
+        message: error.response.data.message || "Something Went Wrong !!!",
+        errorMessages: error?.response?.data?.message,
+      };
+      return Promise.reject(errorResponse);
     }
-    const errorResponse: IErrorResponse = {
-      statusCode: error.response.data,
-      message: error.response.data.message || "Something Went Wrong !!!",
-      errorMessages: error?.response?.data?.message,
-    };
-    return Promise.reject(errorResponse);
   }
 );
 
