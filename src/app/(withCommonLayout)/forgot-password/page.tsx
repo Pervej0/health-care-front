@@ -26,6 +26,7 @@ const ForgotPassword = () => {
       if (res?.data?.success) {
         toast.success(res.data.message || "Check Your Email for Reset Link");
       } else {
+        toast.error(res.error?.data || "Something Went Wrong, Try Again");
         throw new Error("Something Went Wrong, Try Again");
       }
     } catch (error) {
