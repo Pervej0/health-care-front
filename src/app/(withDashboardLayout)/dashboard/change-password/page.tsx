@@ -24,7 +24,6 @@ const ChangePassword = () => {
   const onSubmit = async (values: FieldValues) => {
     try {
       const res = (await updatePassword(values)) as any;
-      console.log(res, "Ppp");
       if (res?.data?.success) {
         logOutUser(router);
         toast.success(res.data.message);

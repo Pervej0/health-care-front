@@ -47,7 +47,6 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const config = error.config;
-    console.log(error, config, "response error");
     if (error.response.status === 400 && !config._retry) {
       config._retry = true;
       const response = await getNewAccessToken();
@@ -57,6 +56,7 @@ instance.interceptors.response.use(
       setAuthCookieToken(accessToken);
       return instance(config);
     } else {
+      console.log(error.response, "error.response");
       const errorResponse: IErrorResponse = {
         success: error.response.data.success || false,
         statusCode: error.response.data.statusCode || 500,

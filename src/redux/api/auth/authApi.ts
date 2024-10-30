@@ -5,7 +5,6 @@ const AuthApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     updatePassword: build.mutation({
       query: (data) => {
-        console.log(data);
         return {
           url: "/auth/change-password",
           method: "PUT",
@@ -15,7 +14,11 @@ const AuthApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.user],
     }),
+    forgotPassword: build.mutation({
+      query: (data) => ({ url: "/auth/forgot-password", method: "PUT", data }),
+      invalidatesTags: [tagTypes.user],
+    }),
   }),
 });
 
-export const { useUpdatePasswordMutation } = AuthApi;
+export const { useUpdatePasswordMutation, useForgotPasswordMutation } = AuthApi;
