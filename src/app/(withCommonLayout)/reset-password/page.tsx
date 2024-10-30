@@ -37,7 +37,6 @@ const ResetPassword = () => {
     const updatedData = { ...values, id };
     try {
       const res = (await resetPassword(updatedData)) as any;
-      console.log(res.error.data);
       if (res?.data?.success) {
         toast.success(res.data.message || "Password Reset Successful");
         removeFromLocalStorage(authKey);
