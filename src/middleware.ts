@@ -1,8 +1,7 @@
 import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { authKey } from "./constant/authKey";
+import { getAuthCookieToken } from "./utils/validateCookieToken";
 
 const authRoutes = ["/login", "/register"];
 
@@ -10,6 +9,7 @@ const commonPrivateRoutes = [
   "/dashboard",
   "/dashboard/change-password",
   "/doctors",
+  "/doctors/:id",
 ];
 const roleBasedPrivateRoutes = {
   PATIENT: [/^\/dashboard\/patient/],
@@ -20,22 +20,28 @@ const roleBasedPrivateRoutes = {
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const token = cookies().get(authKey)?.value;
+  const refreshToken = getAuthCookieToken();
   const { pathname } = request.nextUrl;
-  if (!token) {
+  if (!refreshToken) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }
-  if (token && commonPrivateRoutes.includes(pathname)) {
+
+  console.log(commonPrivateRoutes.includes(pathname), pathname, "xxxxxxxxx");
+  if (
+    refreshToken &&
+    (commonPrivateRoutes.includes(pathname) ||
+      commonPrivateRoutes.some((route) => pathname.startsWith(route)))
+  ) {
     return NextResponse.next();
   }
 
   let decodeData;
-  if (token) {
-    decodeData = jwtDecode(token) as any;
+  if (refreshToken) {
+    decodeData = jwtDecode(refreshToken) as any;
   }
 
   const role = decodeData?.role;

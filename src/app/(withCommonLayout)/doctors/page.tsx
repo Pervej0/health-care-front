@@ -1,5 +1,6 @@
 import DashedLine from "@/components/UI/DoctorPage/DashedLine";
 import DoctorCard from "@/components/UI/DoctorPage/DoctorCard";
+import ScrollCategory from "@/components/UI/DoctorPage/ScrollCategory";
 import { Doctor } from "@/types";
 import { Box, Container } from "@mui/material";
 import React from "react";
@@ -10,19 +11,21 @@ interface PropType {
 
 const Doctors = async ({ searchParams }: PropType) => {
   let response;
-
   if (searchParams) {
     response = await fetch(
-      `http://localhost:5000/api/v1/doctors?specialties=${searchParams.specialties}`
+      `http://localhost:5000/api/v1/doctors?specialty=${
+        searchParams.specialties === undefined ? "" : searchParams.specialties
+      }`
     );
   } else {
     response = await fetch(`http://localhost:5000/api/v1/doctors`);
   }
 
   const { data } = await response.json();
-
   return (
     <Container>
+      <ScrollCategory specialties={searchParams.specialties} />
+      <DashedLine />
       <Box sx={{ my: 4, p: 3, bgcolor: "secondary.light" }}>
         {data?.map((doctor: Doctor, index: number) => (
           <Box key={doctor.id}>

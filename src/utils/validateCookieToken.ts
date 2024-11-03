@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { authKey } from "@/constant/authKey";
 import { redirect } from "next/navigation";
+import { removeUser } from "@/services/auth.services";
 
 export const setAuthCookieToken = (token: string, option?: any) => {
   cookies().set(authKey, token);
@@ -18,4 +19,8 @@ export const removeAuthCookieToken = (keys: string[]) => {
   keys.forEach((key) => {
     cookies().delete(key);
   });
+};
+
+export const getAuthCookieToken = () => {
+  return cookies().get(authKey)?.value;
 };
