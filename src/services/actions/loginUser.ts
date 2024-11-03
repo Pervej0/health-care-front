@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { setAuthCookieToken } from "@/utils/validateCookieToken";
 import { FieldValues } from "react-hook-form";
@@ -11,18 +11,16 @@ export const loginUser = async (data: FieldValues) => {
     },
     body: JSON.stringify(data),
     credentials: "include",
-    cache: "no-store",
   });
   const userInfo = await response.json();
-  const passwordChangeRequired = userInfo.data?.needPasswordChange;
-  if (userInfo.success === false) {
-    return userInfo;
-  }
+
+  const passwordChangeRequired = userInfo.data.needPasswordChange;
+
   if (userInfo.data.accessToken) {
     setAuthCookieToken(userInfo.data.accessToken, {
       redirect: "/dashboard",
       passwordChangeRequired,
     });
-    return userInfo;
   }
+  return userInfo;
 };

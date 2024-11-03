@@ -9,7 +9,7 @@ export const getTokenFromLocalStorage = (key: string) => {
   if (!key || typeof window === undefined) {
     return "";
   }
-  const token = localStorage.getItem(key);
+  const token = localStorage?.getItem(key);
   return token;
 };
 

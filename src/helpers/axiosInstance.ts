@@ -56,7 +56,6 @@ instance.interceptors.response.use(
       setAuthCookieToken(accessToken);
       return instance(config);
     } else {
-      console.log(error.response, "error.response");
       const errorResponse: IErrorResponse = {
         success: error.response.data.success || false,
         statusCode: error.response.data.statusCode || 500,

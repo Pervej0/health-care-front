@@ -11,6 +11,13 @@ export const storeUserInfo = (token: string) => {
   return setToLocalStorage(authKey, token);
 };
 
+export const isLoggedIn = () => {
+  const authToken = getTokenFromLocalStorage(authKey);
+  if (authToken) {
+    return !!authToken;
+  }
+};
+
 export const getUserInfo = () => {
   const token = getTokenFromLocalStorage(authKey) as string;
   if (token) {

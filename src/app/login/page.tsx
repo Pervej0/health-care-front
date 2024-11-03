@@ -2,7 +2,7 @@
 
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import assets from "@/assets";
 import Link from "next/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
@@ -23,17 +23,22 @@ const loginSchema = z.object({
 });
 
 const LoginPage = () => {
-  const router = useRouter();
+  // const router = useRouter();
+  const [error, setError] = useState(false);
 
   const handleLogin: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    const userInfo: FieldValues = await loginUser(data);
-
-    if (userInfo.success) {
-      toast.success("Logged in successfully.");
-      router.push("/dashboard");
-      storeUserInfo(userInfo.data.accessToken);
-    } else {
-      toast.error((userInfo?.message as string) || "something went wrong");
+    try {
+      const response: FieldValues = await loginUser(data);
+      if (response.success) {
+        toast.success("Logged in successfully.");
+        // router.push("/dashboard");
+        storeUserInfo(response.data.accessToken);
+      } else {
+        setError(response.message);
+        toast.error((response?.message as string) || "something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -78,6 +83,21 @@ const LoginPage = () => {
                 </Typography>
               </Box>
             </Stack>
+            {error && (
+              <Box>
+                <Typography
+                  sx={{
+                    backgroundColor: "red",
+                    padding: "1px",
+                    borderRadius: "2px",
+                    color: "white",
+                    marginTop: "5px",
+                  }}
+                >
+                  {error}
+                </Typography>
+              </Box>
+            )}
             <Box>
               <GlobalForm
                 onSubmit={handleLogin}
