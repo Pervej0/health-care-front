@@ -10,6 +10,7 @@ import React from "react";
 const Navbar = () => {
   const user = getUserInfo();
   const router = useRouter();
+
   return (
     <Container>
       <Stack py={3} direction="row" justifyContent="space-between">
@@ -33,6 +34,11 @@ const Navbar = () => {
           <Typography>Medicine</Typography>
           <Typography>Diagnostics</Typography>
           <Typography>NGOs</Typography>
+          {user && (
+            <Typography component={Link} href="/dashboard">
+              Dashboard
+            </Typography>
+          )}
         </Stack>
         {!user ? (
           <Button LinkComponent={Link} href="/login">
