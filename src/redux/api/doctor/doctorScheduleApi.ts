@@ -14,10 +14,11 @@ const doctorScheduleApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.doctorSchedule],
     }),
     getAllDoctorSchedule: build.query({
-      query: () => {
+      query: (arg: Record<string, any>) => {
         return {
           url: "/doctor-schedules",
           method: "GET",
+          params: arg,
         };
       },
       providesTags: [tagTypes.doctorSchedule],
@@ -32,7 +33,6 @@ const doctorScheduleApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.doctorSchedule],
     }),
-
     deleteDoctorSchedule: build.mutation({
       query: (id) => {
         return {

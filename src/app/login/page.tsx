@@ -27,18 +27,15 @@ const LoginPage = () => {
   const [error, setError] = useState(false);
 
   const handleLogin: SubmitHandler<FieldValues> = async (data: FieldValues) => {
-    try {
-      const response: FieldValues = await loginUser(data);
-      if (response.success) {
-        toast.success("Logged in successfully.");
-        // router.push("/dashboard");
-        storeUserInfo(response.data.accessToken);
-      } else {
-        setError(response.message);
-        toast.error((response?.message as string) || "something went wrong");
-      }
-    } catch (error) {
-      console.log(error);
+    const response: FieldValues = await loginUser(data);
+    console.log(response);
+    if (response.success) {
+      toast.success("Logged in successfully.");
+      // router.push("/dashboard");
+      storeUserInfo(response.data.accessToken);
+    } else {
+      setError(response.message);
+      toast.error((response?.message as string) || "something went wrong");
     }
   };
 

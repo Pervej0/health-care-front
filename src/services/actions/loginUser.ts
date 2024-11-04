@@ -13,14 +13,15 @@ export const loginUser = async (data: FieldValues) => {
     credentials: "include",
   });
   const userInfo = await response.json();
-
-  const passwordChangeRequired = userInfo.data.needPasswordChange;
-
+  const passwordChangeRequired = userInfo.data?.needPasswordChange;
+  if (userInfo.success === false) {
+    return userInfo;
+  }
   if (userInfo.data.accessToken) {
     setAuthCookieToken(userInfo.data.accessToken, {
       redirect: "/dashboard",
       passwordChangeRequired,
     });
+    return userInfo;
   }
-  return userInfo;
 };
