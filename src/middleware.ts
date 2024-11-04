@@ -30,7 +30,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  console.log(commonPrivateRoutes.includes(pathname), pathname, "xxxxxxxxx");
   if (
     refreshToken &&
     (commonPrivateRoutes.includes(pathname) ||

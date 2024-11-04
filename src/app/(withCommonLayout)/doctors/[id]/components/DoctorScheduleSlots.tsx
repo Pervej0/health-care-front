@@ -29,14 +29,45 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
     .millisecond(999)
     .toISOString();
 
+  const currentDate = new Date();
   const { data, isLoading } = useGetAllDoctorScheduleQuery({ ...query });
   const doctorSchedules = data?.data;
-  console.log(doctorSchedules);
+  const today = currentDate.toLocaleDateString("en-US", { weekday: "long" });
   const availableSlots = doctorSchedules?.filter(
     (doctor: DoctorSchedule) => !doctor.isBooked
   );
-  const currentDate = new Date();
-  const today = currentDate.toLocaleDateString("en-US", { weekday: "long" });
+
+  // next day schedule slots
+  const nextAvailableDate = new Date();
+  nextAvailableDate.setDate(currentDate.getDate() + 1);
+  const tomorrow = nextAvailableDate.toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+
+  query.startDateTime = dayjs(nextAvailableDate)
+    .hour(0)
+    .minute(0)
+    .second(0)
+    .millisecond(0)
+    .toISOString();
+
+  query.endDateTime = dayjs(nextAvailableDate)
+    .hour(23)
+    .minute(59)
+    .second(59)
+    .millisecond(999)
+    .toISOString();
+
+  const { data: nextDoctorSchedules, isLoading: loading } =
+    useGetAllDoctorScheduleQuery({
+      ...query,
+    });
+
+  const availableNextDaySlots = nextDoctorSchedules?.data.filter(
+    (doctor: DoctorSchedule) => !doctor.isBooked
+  );
+
+  console.log(nextDoctorSchedules, tomorrow);
 
   return (
     <Box mb={5}>
@@ -82,9 +113,10 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
             </span>
           )}
         </Stack>
-        {/* <Typography variant="h6" fontSize={16} mt={5}>
+        <Typography variant="h6" fontSize={16} mt={5}>
           <b>
-            Tomorrow: {dateFormatter(nextDate.toISOString()) + " " + tomorrow}
+            Tomorrow:{" "}
+            {dateFormatter(nextAvailableDate.toISOString()) + " " + tomorrow}
           </b>
         </Typography>
         <Box sx={{ borderBottom: "2px dashed #d0d0d0", mt: 2, mb: 3 }} />
@@ -95,9 +127,9 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
             ) : (
               availableNextDaySlots?.map((doctorSchedule: DoctorSchedule) => {
                 const formattedTimeSlot = `${getTimeIn12HourFormat(
-                  doctorSchedule?.schedule?.startDate
+                  doctorSchedule?.schedule?.startDateTime
                 )} - ${getTimeIn12HourFormat(
-                  doctorSchedule?.schedule?.endDate
+                  doctorSchedule?.schedule?.endDateTime
                 )}`;
 
                 return (
@@ -121,7 +153,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
               No Schedule is Available Today!
             </span>
           )}
-        </Stack> */}
+        </Stack>
       </Box>
 
       <Button
