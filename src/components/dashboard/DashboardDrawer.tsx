@@ -15,7 +15,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Avatar, Badge, Button, Menu, MenuItem, Stack } from "@mui/material";
-import { getUserInfo, removeUser } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
 import { useGetSingleUserQuery } from "@/redux/api/user/userApi";
 import AccountMenu from "./AccountMenu/AccountMenu";
@@ -71,6 +70,8 @@ export default function ResponsiveDrawer({
     handleMobileMenuClose();
   };
 
+  const router = useRouter();
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -90,7 +91,7 @@ export default function ResponsiveDrawer({
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <Button onClick={() => logOutUser("/")}>
+      <Button onClick={() => logOutUser(router)}>
         <MenuItem>Log out</MenuItem>
       </Button>
     </Menu>

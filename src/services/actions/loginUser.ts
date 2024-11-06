@@ -11,6 +11,7 @@ export const loginUser = async (data: FieldValues) => {
     },
     body: JSON.stringify(data),
     credentials: "include",
+    cache: "no-store",
   });
   const userInfo = await response.json();
   const passwordChangeRequired = userInfo.data?.needPasswordChange;

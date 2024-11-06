@@ -48,6 +48,8 @@ const DoctorProfile = () => {
       console.log(err);
     }
   };
+
+  console.log(userData, "pppppp");
   const { email, name, contactNumber, portfolio } = userData?.data;
 
   const defaultValues = {

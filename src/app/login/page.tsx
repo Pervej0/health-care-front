@@ -23,15 +23,14 @@ const loginSchema = z.object({
 });
 
 const LoginPage = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [error, setError] = useState(false);
 
   const handleLogin: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     const response: FieldValues = await loginUser(data);
-    console.log(response);
     if (response.success) {
       toast.success("Logged in successfully.");
-      // router.push("/dashboard");
+      router.refresh();
       storeUserInfo(response.data.accessToken);
     } else {
       setError(response.message);

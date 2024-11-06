@@ -1,6 +1,8 @@
 "use client";
 
 import { useGetAllDoctorScheduleQuery } from "@/redux/api/doctor/doctorScheduleApi";
+import { useCreateAppointmentMutation } from "@/redux/api/patient/appointmentApi";
+import { useInitialPaymentMutation } from "@/redux/api/patient/paymentApi";
 import { DoctorSchedule } from "@/types";
 import dateFormatter from "@/utils/dateFormatter";
 import { getTimeIn12HourFormat } from "@/utils/getTimeIn12HourFormat";
@@ -11,8 +13,8 @@ import React, { useState } from "react";
 
 const DoctorScheduleSlots = ({ id }: { id: string }) => {
   const [scheduleId, setScheduleId] = useState("");
-  const query: Record<string, any> = {};
   const router = useRouter();
+  const query: Record<string, any> = {};
   query["doctorId"] = id;
 
   query["startDateTime"] = dayjs(new Date())
@@ -67,7 +69,29 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
     (doctor: DoctorSchedule) => !doctor.isBooked
   );
 
-  console.log(nextDoctorSchedules, tomorrow);
+  // handle book appointment
+  const [createAppointment] = useCreateAppointmentMutation();
+  const [initialPayment] = useInitialPaymentMutation();
+
+  const handleBookAppointment = async () => {
+    try {
+      if (id && scheduleId) {
+        const res = await createAppointment({
+          doctorId: id,
+          scheduleId,
+        }).unwrap();
+
+        if (res.id) {
+          const response = await initialPayment(res.id).unwrap();
+          if (response.GatewayPageURL) {
+            router.push(response.GatewayPageURL);
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Box mb={5}>
@@ -157,7 +181,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
       </Box>
 
       <Button
-        // onClick={handleBookAppointment}
+        onClick={handleBookAppointment}
         sx={{ display: "block", mx: "auto" }}
       >
         Book Appointment Now

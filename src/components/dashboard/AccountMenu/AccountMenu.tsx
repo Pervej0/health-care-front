@@ -10,7 +10,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useRouter } from "next/navigation";
-import { removeUser } from "@/services/auth.services";
 import logOutUser from "@/services/actions/logOutUser";
 
 const menuStyles = {
@@ -51,9 +50,10 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleLogout = () => {
     setAnchorEl(null);
-    removeUser();
+    logOutUser(router);
     router.push("/login");
   };
 
