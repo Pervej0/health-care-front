@@ -13,7 +13,6 @@ import Link from "next/link";
 const PatientAppointments = () => {
   const { data, isLoading } = useGetMyAppointmentQuery({}) as any;
   const appointments = data?.appointments?.data;
-  const meta = data?.meta;
 
   const columns: GridColDef[] = [
     {
