@@ -1,4 +1,4 @@
-import { Search } from "@mui/icons-material";
+import VideoCall from "@/components/UI/Appointment/VideoCall";
 import { Container } from "@mui/material";
 import React from "react";
 
@@ -10,7 +10,7 @@ const VideoCalling = ({ searchParams }: { searchParams: searchParamsType }) => {
   console.log(searchParams.videoCallingId);
   return (
     <Container>
-      <h2>Start</h2>
+      <VideoCall videoCallingId={searchParams.videoCallingId} />
     </Container>
   );
 };
